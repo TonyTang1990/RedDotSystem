@@ -1,0 +1,11 @@
+# 文件以及目录过滤
+# 过滤library目录
+RedDotSystem/Library/
+# 过滤.vs目录
+RedDotSystem/.vs/
+# 过滤Temp目录
+RedDotSystem/Temp/
+# 过滤obj目录
+RedDotSystem/obj/
+# 过滤Log目录
+RedDotSystem/Logs/

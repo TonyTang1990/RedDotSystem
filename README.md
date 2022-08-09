@@ -1,2 +1,2 @@
 # RedDotSystem
-红点系统框架
+红点系统
