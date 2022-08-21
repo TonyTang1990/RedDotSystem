@@ -56,4 +56,149 @@ public class EquipUI : MonoBehaviour
     /// </summary>
     [Header("可升级装备红点")]
     public RedDotWidget UpgradableEquipRedDot;
+
+    /// <summary>
+    /// 响应打开
+    /// </summary>
+    public void OnOpen()
+    {
+        gameObject.SetActive(true);
+        AddAllListeners();
+        BindAllRedDotNames();
+        RefreshView();
+    }
+
+    /// <summary>
+    /// 添加所有监听
+    /// </summary>
+    private void AddAllListeners()
+    {
+        BtnClose.onClick.AddListener(OnBtnCloseClick);
+        BtnAddWearableEquip.onClick.AddListener(OnBtnAddWearableEquipClick);
+        BtnMinusWearableEquip.onClick.AddListener(OnBtnMinusWearableEquipClick);
+        BtnAddUpgradableEquip.onClick.AddListener(OnBtnAddUpgradableEquipClick);
+        BtnMinusUpgradableEquip.onClick.AddListener(OnBtnMinusUpgradableEquipClick);
+    }
+
+    /// <summary>
+    /// 绑定所有红点名
+    /// </summary>
+    private void BindAllRedDotNames()
+    {
+        RedDotManager.Singleton.BindRedDotName(RedDotNames.EQUIP_UI_WEARABLE, OnRedDotRefresh);
+        RedDotManager.Singleton.BindRedDotName(RedDotNames.EQUIP_UI_UPGRADABLE, OnRedDotRefresh);
+    }
+
+    /// <summary>
+    /// 刷新显示
+    /// </summary>
+    private void RefreshView()
+    {
+        RefreshRedDotView();
+    }
+
+    /// <summary>
+    /// 刷新红点显示
+    /// </summary>
+    private void RefreshRedDotView()
+    {
+        RedDotManager.Singleton.TriggerRedDotNameUpdate(RedDotNames.EQUIP_UI_WEARABLE);
+        RedDotManager.Singleton.TriggerRedDotNameUpdate(RedDotNames.EQUIP_UI_UPGRADABLE);
+    }
+
+    /// <summary>
+    /// 响应红点刷新
+    /// </summary>
+    /// <param name="redDotName"></param>
+    /// <param name="result"></param>
+    /// <param name="redDotType"></param>
+    private void OnRedDotRefresh(string redDotName, int result, RedDotType redDotType)
+    {
+        var resultText = RedDotUtilities.GetRedDotResultText(result, redDotType);
+        if (string.Equals(redDotName, RedDotNames.EQUIP_UI_WEARABLE))
+        {
+            WearableEquipRedDot.SetActive(result > 0);
+            WearableEquipRedDot.SetRedDotTxt(resultText);
+        }
+        else if (string.Equals(redDotName, RedDotNames.EQUIP_UI_UPGRADABLE))
+        {
+            UpgradableEquipRedDot.SetActive(result > 0);
+            UpgradableEquipRedDot.SetRedDotTxt(resultText);
+        }
+    }
+
+    /// <summary>
+    /// 响应关闭按钮点击
+    /// </summary>
+    private void OnBtnCloseClick()
+    {
+        OnClose();
+    }
+
+    /// <summary>
+    /// 响应增加可穿戴装备1按钮点击
+    /// </summary>
+    private void OnBtnAddWearableEquipClick()
+    {
+        var newWearableEquipNum = GameModel.Singleton.WearableEquipNum + 1;
+        GameModel.Singleton.SetWearableEquipNum(newWearableEquipNum);
+    }
+
+    /// <summary>
+    /// 响应减少可穿戴装备1按钮点击
+    /// </summary>
+    private void OnBtnMinusWearableEquipClick()
+    {
+        var newWearableEquipNum = GameModel.Singleton.WearableEquipNum - 1;
+        GameModel.Singleton.SetWearableEquipNum(newWearableEquipNum);
+    }
+
+    /// <summary>
+    /// 响应增加可升级装备1按钮点击
+    /// </summary>
+    private void OnBtnAddUpgradableEquipClick()
+    {
+        var newUpgradeableEquipNum = GameModel.Singleton.UpgradeableEquipNum + 1;
+        GameModel.Singleton.SetUpgradeableEquipNum(newUpgradeableEquipNum);
+    }
+
+    /// <summary>
+    /// 响应减少可升级装备1按钮点击
+    /// </summary>
+    private void OnBtnMinusUpgradableEquipClick()
+    {
+        var newUpgradeableEquipNum = GameModel.Singleton.UpgradeableEquipNum - 1;
+        GameModel.Singleton.SetUpgradeableEquipNum(newUpgradeableEquipNum);
+    }
+
+    /// <summary>
+    /// 解绑所有红点名
+    /// </summary>
+    private void UnbindAllRedDotNames()
+    {
+        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.EQUIP_UI_WEARABLE);
+        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.EQUIP_UI_UPGRADABLE);
+    }
+
+    /// <summary>
+    /// 移除所有监听
+    /// </summary>
+    private void RemoveAllListeners()
+    {
+        BtnClose.onClick.RemoveListener(OnBtnCloseClick);
+        BtnAddWearableEquip.onClick.RemoveListener(OnBtnAddWearableEquipClick);
+        BtnMinusWearableEquip.onClick.RemoveListener(OnBtnMinusWearableEquipClick);
+        BtnAddUpgradableEquip.onClick.RemoveListener(OnBtnAddUpgradableEquipClick);
+        BtnMinusUpgradableEquip.onClick.RemoveListener(OnBtnMinusUpgradableEquipClick);
+    }
+
+    /// <summary>
+    /// 响应关闭
+    /// </summary>
+    public void OnClose()
+    {
+        gameObject.SetActive(false);
+        UnbindAllRedDotNames();
+        RemoveAllListeners();
+    }
 }

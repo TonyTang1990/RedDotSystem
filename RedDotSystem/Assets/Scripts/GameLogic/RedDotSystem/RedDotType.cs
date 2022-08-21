@@ -16,6 +16,7 @@ using UnityEngine;
 [Flags]
 public enum RedDotType
 {
+    NONE = 0,                                                                   // 无
     RED = 0x0001,                                                               // 纯红点
     NUMBER = 0x0002,                                                            // 数字红点
     NEW = 0x0004,                                                               // 新红点

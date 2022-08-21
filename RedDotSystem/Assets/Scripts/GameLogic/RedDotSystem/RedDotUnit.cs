@@ -16,9 +16,15 @@ using UnityEngine;
 /// </summary>
 public enum RedDotUnit
 {
+    INVALIDE = 0,                           // 无效类型
     #region 主UI部分
-    NEW_FUNC1 = 1,                          // 动态新功能1解锁
+    NEW_FUNC1,                              // 动态新功能1解锁
     NEW_FUNC2,                              // 动态新功能2解锁
+    #endregion
+    #region 背包部分
+    NEW_ITEM_NUM,                           // 新道具数
+    NEW_RESOURCE_NUM,                       // 新资源数
+    NEW_EQUIP_NUM,                          // 新装备数
     #endregion
     #region 邮件部分
     NEW_PUBLIC_MAIL_NUM,                    // 新公共邮件数
@@ -27,18 +33,9 @@ public enum RedDotUnit
     PUBLIC_MAIL_REWARD_NUM,                 // 公共邮件可领奖数
     BATTLE_MAIL_REWARD_NUM,                 // 战斗邮件可领奖数
     #endregion
-    #region 背包部分
-    NEW_ITEM_NUM = 1,                       // 新道具数
-    NEW_RESOURCE_NUM = 1,                   // 新资源数
-    NEW_EQUIP_NUM = 1,                      // 新装备数
-    #endregion
     #region 装备部分
-    WEARABLE_EQUIP_NUM = 1,                 // 可穿戴装备数
-    UPGRADEABLE_EQUIP_NUM = 1,              // 可升级装备数
-    #endregion
-    #region 其他部分
-    FUNC1_TIP_NUM,                          // 功能1提示数
-    FUNC2_TIP_NUM,                          // 功能2提示数
+    WEARABLE_EQUIP_NUM,                     // 可穿戴装备数
+    UPGRADEABLE_EQUIP_NUM,                  // 可升级装备数
     #endregion
 }
 

@@ -56,25 +56,26 @@
     <Analyzer Include="G:\Software\VisualStudio\VS2019\Install\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Trie\Trie.cs" />
-    <Compile Include="Assets\Scripts\Trie\TrieNode.cs" />
-    <Compile Include="Assets\Scripts\GameLauncher.cs" />
-    <Compile Include="Assets\Scripts\Core\Pool\ObjectPool.cs" />
-    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotManager.cs" />
-    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotModel.cs" />
-    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotUtilities.cs" />
-    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotType.cs" />
-    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotInfo.cs" />
-    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotUnit.cs" />
-    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotUnitInfo.cs" />
-    <Compile Include="Assets\Scripts\Core\Singleton\SingletonTemplate.cs" />
     <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotNames.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotUtilities.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\UI\EquipUI.cs" />
     <Compile Include="Assets\Scripts\GameLogic\UI\MainUI.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Widget\RedDotWidget.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotModel.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotType.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotUnit.cs" />
+    <Compile Include="Assets\Scripts\Trie\Trie.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotManager.cs" />
+    <Compile Include="Assets\Scripts\Trie\TrieNode.cs" />
+    <Compile Include="Assets\Scripts\Core\Singleton\SingletonTemplate.cs" />
+    <Compile Include="Assets\Scripts\Core\Pool\ObjectPool.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotInfo.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotUnitInfo.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\UI\MailDetailUI.cs" />
     <Compile Include="Assets\Scripts\GameLogic\UI\BackpackUI.cs" />
     <Compile Include="Assets\Scripts\GameLogic\UI\MailUI.cs" />
-    <Compile Include="Assets\Scripts\GameLogic\UI\EquipUI.cs" />
-    <Compile Include="Assets\Scripts\GameLogic\Widget\RedDotWidget.cs" />
-    <Compile Include="Assets\Scripts\GameLogic\UI\MailDetailUI.cs" />
+    <Compile Include="Assets\Scripts\GameLauncher.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\GameModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

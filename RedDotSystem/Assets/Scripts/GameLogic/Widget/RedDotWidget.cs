@@ -33,7 +33,7 @@ public class RedDotWidget : MonoBehaviour
     /// <param name="active"></param>
     public void SetActive(bool active)
     {
-        gameObject.SetActive(false);
+        gameObject.SetActive(active);
     }
 
     /// <summary>

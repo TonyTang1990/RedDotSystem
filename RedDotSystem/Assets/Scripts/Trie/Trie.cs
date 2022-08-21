@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Description:             Trie.cs
+ * Author:                  TONYTANG
+ * Create Date:             2022/08/12
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +18,11 @@ public class Trie
     /// <summary>
     /// 单词分隔符
     /// </summary>
-    private char mSeparator;
+    public char Separator
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// 单词数量
@@ -35,7 +45,11 @@ public class Trie
     /// <summary>
     /// 根节点
     /// </summary>
-    private TrieNode mRootNode;
+    public TrieNode RootNode
+    {
+        get;
+        private set;
+    }
 
     /// <summary>
     /// 单词列表(用于缓存分割结果，优化单个单词判定时重复分割问题)
@@ -48,11 +62,11 @@ public class Trie
     /// <param name="separator"></param>
     public Trie(char separator = '|')
     {
-        mSeparator = separator;
+        Separator = separator;
         WorldCount = 0;
         TrieDeepth = 0;
-        mRootNode = ObjectPool.Singleton.pop<TrieNode>();
-        mRootNode.Init("Root", null, false);
+        RootNode = ObjectPool.Singleton.pop<TrieNode>();
+        RootNode.Init("Root", null, this, 0, false);
         mWordList = new List<string>();
     }
 
@@ -63,20 +77,25 @@ public class Trie
     public void AddWord(string word)
     {
         mWordList.Clear();
-        var words = word.Split(mSeparator);
+        var words = word.Split(Separator);
         mWordList.AddRange(words);
         var length = mWordList.Count;
-        var node = mRootNode;
+        var node = RootNode;
         for (int i = 0; i < length; i++)
         {
             var spliteWord = mWordList[i];
+            var isLast = i == (length - 1);
             if (!node.ContainWord(spliteWord))
             {
-                node = node.AddChildNode(spliteWord, i == (length - 1));
+                node = node.AddChildNode(spliteWord, isLast);
             }
             else
             {
                 node = node.GetChildNode(spliteWord);
+                if(isLast)
+                {
+                    Debug.Log($"添加重复单词:{word}");
+                }
             }
         }
     }
@@ -122,7 +141,7 @@ public class Trie
         wordNode.RemoveFromParent();
         // 网上遍历更新节点信息
         var node = wordNode.Parent;
-        while(!node.IsRoot)
+        while(node != null && !node.IsRoot)
         {
             // 没有子节点且不是单词节点则直接删除
             if(node.ChildCount == 0 && !node.IsTail)
@@ -154,8 +173,8 @@ public class Trie
             return null;
         }
         // 从最里层节点开始反向判定更新和删除
-        var wordArray = word.Split(mSeparator);
-        var node = mRootNode;
+        var wordArray = word.Split(Separator);
+        var node = RootNode;
         foreach(var spliteWord in wordArray)
         {
             var childNode = node.GetChildNode(spliteWord);
@@ -188,9 +207,9 @@ public class Trie
             return false;
         }
         mWordList.Clear();
-        var wordArray = word.Split(mSeparator);
+        var wordArray = word.Split(Separator);
         mWordList.AddRange(wordArray);
-        return FindWord(mRootNode, mWordList);
+        return FindWord(RootNode, mWordList);
     }
 
     /// <summary>
@@ -227,9 +246,9 @@ public class Trie
             return false;
         }
         mWordList.Clear();
-        var wordArray = word.Split(mSeparator);
+        var wordArray = word.Split(Separator);
         mWordList.AddRange(wordArray);
-        return MatchWord(mRootNode, mWordList);
+        return MatchWord(RootNode, mWordList);
     }
 
     /// <summary>
@@ -260,7 +279,7 @@ public class Trie
     /// <returns></returns>
     public List<string> GetWordList()
     {
-        return GetNodeWorldList(mRootNode, string.Empty);
+        return GetNodeWorldList(RootNode, string.Empty);
     }
 
     /// <summary>
@@ -275,7 +294,15 @@ public class Trie
         foreach (var childNodeKey in trieNode.ChildNodesMap.Keys)
         {
             var childNode = trieNode.ChildNodesMap[childNodeKey];
-            var word = $"{preFix}{childNodeKey}";
+            string word;
+            if (trieNode.IsRoot)
+            {
+                word = $"{preFix}{childNodeKey}";
+            }
+            else
+            {
+                word = $"{preFix}{Separator}{childNodeKey}";
+            }
             if (childNode.IsTail)
             {
                 wordList.Add(word);
@@ -294,7 +321,7 @@ public class Trie
     /// </summary>
     public void PrintTreeNodes()
     {
-        PrintNodes(mRootNode, 1);
+        PrintNodes(RootNode, 1);
     }
 
     /// <summary>

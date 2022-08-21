@@ -17,7 +17,7 @@ public class TrieNode : IRecycle
     /// <summary>
     /// 节点字符串
     /// </summary>
-    public string Word
+    public string NodeValue
     {
         get;
         private set;
@@ -33,14 +33,21 @@ public class TrieNode : IRecycle
     }
 
     /// <summary>
-    /// 是否是根节点
+    /// 所属前缀树
     /// </summary>
-    public bool IsRoot
+    public Trie OwnerTree
     {
-        get
-        {
-            return Parent == null;
-        }
+        get;
+        private set;
+    }
+
+    /// <summary>
+    /// 节点深度(根节点为0)
+    /// </summary>
+    public int Depth
+    {
+        get;
+        private set;
     }
 
     /// <summary>
@@ -50,6 +57,17 @@ public class TrieNode : IRecycle
     {
         get;
         set;
+    }
+
+    /// <summary>
+    /// 是否是根节点
+    /// </summary>
+    public bool IsRoot
+    {
+        get
+        {
+            return Parent == null;
+        }
     }
 
     /// <summary>
@@ -72,15 +90,17 @@ public class TrieNode : IRecycle
         }
     }
 
-    private TrieNode()
+    public TrieNode()
     {
-
+        ChildNodesMap = new Dictionary<string, TrieNode>();
     }
 
     public void OnCreate()
     {
-        Word = null;
+        NodeValue = null;
         Parent = null;
+        OwnerTree = null;
+        Depth = 0;
         IsTail = false;
         ChildNodesMap.Clear();
     }
@@ -88,20 +108,26 @@ public class TrieNode : IRecycle
     /// <summary>
     /// 初始化数据
     /// </summary>
-    /// <param name="word"></param>
-    /// <param name="parent"></param>
-    /// <param name="isTail"></param>
-    public void Init(string word, TrieNode parent, bool isTail)
+    /// <param name="value">字符串</param>
+    /// <param name="parent">父节点</param>
+    /// <param name="ownerTree">所属前缀树</param>
+    /// <param name="depth">节点深度</param>
+    /// <param name="isTail">是否是单词节点</param>
+    public void Init(string value, TrieNode parent, Trie ownerTree, int depth, bool isTail = false)
     {
-        Word = word;
+        NodeValue = value;
         Parent = parent;
+        OwnerTree = ownerTree;
+        Depth = depth;
         IsTail = isTail;
     }
 
     public void OnDispose()
     {
-        Word = null;
+        NodeValue = null;
         Parent = null;
+        OwnerTree = null;
+        Depth = 0;
         IsTail = false;
         ChildNodesMap.Clear();
     }
@@ -117,11 +143,11 @@ public class TrieNode : IRecycle
         TrieNode node;
         if (ChildNodesMap.TryGetValue(nodeWord, out node))
         {
-            Debug.Log($"节点字符串:{Word}已存在字符串:{nodeWord}的子节点,不重复添加子节点!");
+            Debug.Log($"节点字符串:{NodeValue}已存在字符串:{nodeWord}的子节点,不重复添加子节点!");
             return node;
         }
         node = ObjectPool.Singleton.pop<TrieNode>();
-        node.Init(nodeWord, this, isTail);
+        node.Init(nodeWord, this, OwnerTree, Depth + 1, isTail);
         ChildNodesMap.Add(nodeWord, node);
         return node;
     }
@@ -149,13 +175,13 @@ public class TrieNode : IRecycle
             Debug.LogError($"无法移除空节点!");
             return false;
         }
-        var realChildNode = GetChildNode(childNode.Word);
+        var realChildNode = GetChildNode(childNode.NodeValue);
         if(realChildNode != childNode)
         {
-            Debug.LogError($"移除的子节点单词:{childNode.Word}对象不是同一个,移除子节点失败!");
+            Debug.LogError($"移除的子节点单词:{childNode.NodeValue}对象不是同一个,移除子节点失败!");
             return false;
         }
-        ChildNodesMap.Remove(childNode.Word);
+        ChildNodesMap.Remove(childNode.NodeValue);
         ObjectPool.Singleton.push<TrieNode>(childNode);
         return true;
     }
@@ -185,7 +211,7 @@ public class TrieNode : IRecycle
         TrieNode trieNode;
         if (!ChildNodesMap.TryGetValue(nodeWord, out trieNode))
         {
-            Debug.Log($"节点字符串:{Word}找不到子节点字符串:{nodeWord},获取子节点失败!");
+            Debug.Log($"节点字符串:{NodeValue}找不到子节点字符串:{nodeWord},获取子节点失败!");
             return null;
         }
         return trieNode;
@@ -200,5 +226,24 @@ public class TrieNode : IRecycle
     public bool ContainWord(string nodeWord)
     {
         return ChildNodesMap.ContainsKey(nodeWord);
+    }
+
+    /// <summary>
+    /// 获取当前节点构成的单词
+    /// Note:
+    /// 不管当前节点是否是单词节点,都返回从当前节点回溯到根节点拼接的单词
+    /// 若当前节点为根节点，则返回根节点的字符串(默认为"Root")
+    /// </summary>
+    /// <returns></returns>
+    public string GetFullWord()
+    {
+        var trieNodeWord = NodeValue;
+        var node = Parent;
+        while(node != null && !node.IsRoot)
+        {
+            trieNodeWord = $"{node.NodeValue}{OwnerTree.Separator}{trieNodeWord}";
+            node = node.Parent;
+        }
+        return trieNodeWord;
     }
 }

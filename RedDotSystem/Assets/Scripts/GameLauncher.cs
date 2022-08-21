@@ -50,10 +50,16 @@ public class GameLauncher : MonoBehaviour
     [Header("邮件界面")]
     public MailUI MailUI;
 
-    private void Start()
+    private void Awake()
     {
         mSingleton = this;
-        RedDotModel.Singleton.InitModel();
+        RedDotModel.Singleton.Init();
+        RedDotManager.Singleton.Init();
+    }
+
+    private void Start()
+    {
+        MainUI.OnOpen();
     }
 
     public void Update()

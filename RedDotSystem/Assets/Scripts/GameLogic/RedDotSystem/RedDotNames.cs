@@ -41,7 +41,7 @@ public static class RedDotNames
     /// <summary>
     /// 主界面菜单装备红点
     /// </summary>
-    public const string MAIN_UI_MENU_EQUIP = "MAIN_UI_MENU|EUIP";
+    public const string MAIN_UI_MENU_EQUIP = "MAIN_UI_MENU|EQUIP";
 
     /// <summary>
     /// 主界面菜单背包红点
@@ -87,11 +87,11 @@ public static class RedDotNames
     /// <summary>
     /// 装备界面可穿戴红点
     /// </summary>
-    public const string EQUIP_UI_WEARABLE = "MAIN_UI_MENU|EUIP|WEARABLE";
+    public const string EQUIP_UI_WEARABLE = "MAIN_UI_MENU|EQUIP|WEARABLE";
 
     /// <summary>
     /// 装备界面可升级红点
     /// </summary>
-    public const string EQUIP_UI_UPGRADABLE = "MAIN_UI_MENU|EUIP|UPGRADABLE";
+    public const string EQUIP_UI_UPGRADABLE = "MAIN_UI_MENU|EQUIP|UPGRADABLE";
     #endregion
 }
