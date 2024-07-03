@@ -28,7 +28,7 @@ public class RedDotManager : SingletonTemplate<RedDotManager>
     /// <summary>
     /// 红点运算单元结果改变列表
     /// </summary>
-    private List<RedDotUnit> mResultChangedRedDotUnitList;
+    //private List<RedDotUnit> mResultChangedRedDotUnitList;
 
     /// <summary>
     /// 结果变化的红点名数据Map<红点名, 红点名>
@@ -65,7 +65,7 @@ public class RedDotManager : SingletonTemplate<RedDotManager>
     {
         InitRedDotUnitResultMap();
         mDirtyRedDotUnitMap = new Dictionary<RedDotUnit, RedDotUnit>();
-        mResultChangedRedDotUnitList = new List<RedDotUnit>();
+        //mResultChangedRedDotUnitList = new List<RedDotUnit>();
         mResultChangedRedDotNameMap = new Dictionary<string, string>();
     }
 
@@ -263,20 +263,20 @@ public class RedDotManager : SingletonTemplate<RedDotManager>
         {
             return;
         }
-        mResultChangedRedDotUnitList.Clear();
-        foreach(var dirtyRedDotUnit in mDirtyRedDotUnitMap)
-        {
-            if(DoRedDotUnitCaculate(dirtyRedDotUnit.Key))
-            {
-                mResultChangedRedDotUnitList.Add(dirtyRedDotUnit.Key);
-            }
-        }
-        mDirtyRedDotUnitMap.Clear();
+        //mResultChangedRedDotUnitList.Clear();
+        //foreach(var dirtyRedDotUnit in mDirtyRedDotUnitMap)
+        //{
+        //    if(DoRedDotUnitCaculate(dirtyRedDotUnit.Key))
+        //    {
+        //        mResultChangedRedDotUnitList.Add(dirtyRedDotUnit.Key);
+        //    }
+        //}
         // 触发已绑定的关心改变红点运算单元的红点刷新
         mResultChangedRedDotNameMap.Clear();
-        foreach(var resultChangedRedDotUnit in mResultChangedRedDotUnitList)
+        foreach(var dirtyRedDotUnit in mDirtyRedDotUnitMap)
         {
-            var redDotNameList = RedDotModel.Singleton.GetRedDotUnitNames(resultChangedRedDotUnit);
+            var redDotUnit = dirtyRedDotUnit.Key;
+            var redDotNameList = RedDotModel.Singleton.GetRedDotUnitNames(redDotUnit);
             if(redDotNameList != null)
             {
                 foreach (var redDotName in redDotNameList)
@@ -288,9 +288,10 @@ public class RedDotManager : SingletonTemplate<RedDotManager>
                 }
             }
         }
-        mResultChangedRedDotUnitList.Clear();
+        mDirtyRedDotUnitMap.Clear();
+        //mResultChangedRedDotUnitList.Clear();
         // 通过每个红点所有影响的红点运算单元得出红点显示结论并通知更新
-        foreach(var resultChangedRedDotName in mResultChangedRedDotNameMap)
+        foreach (var resultChangedRedDotName in mResultChangedRedDotNameMap)
         {
             TriggerRedDotNameUpdate(resultChangedRedDotName.Key);
         }
@@ -313,7 +314,7 @@ public class RedDotManager : SingletonTemplate<RedDotManager>
         }
         else
         {
-            Debug.LogError($"红点运算单元:{redDotUnit.ToString()}未绑定有效计算方法!");
+            //Debug.LogError($"红点运算单元:{redDotUnit.ToString()}未绑定有效计算方法!");
         }
         SetRedDotUnitResult(redDotUnit, result);
         return preResult != result;
