@@ -109,12 +109,12 @@ public class RedDotInfo
     /// <returns></returns>
     public bool AddRedDotUnit(RedDotUnit redDotUnit)
     {
-        if (RedDotNameLsit.Contains(redDotUnit))
+        if (RedDotUnitList.Contains(redDotUnit))
         {
             Debug.LogError($"红点名:{RedDotName}重复添加影响红点运算单元:{redDotUnit.ToString()}，添加失败！");
             return false;
         }
-        RedDotNameLsit.Add(redDotUnit);
+        RedDotUnitList.Add(redDotUnit);
         return true;
     }
 
@@ -125,11 +125,11 @@ public class RedDotInfo
     /// <returns></returns>
     public bool RemoveRedDotUnit(RedDotUnit redDotUnit)
     {
-        if (!RedDotNameLsit.Contains(redDotUnit))
+        if (!RedDotUnitList.Contains(redDotUnit))
         {
             Debug.LogError($"红点名:{RedDotName}未添加影响红点运算单元:{redDotUnit.ToString()}，移除失败!");
             return false;
         }
-        return RedDotNameLsit.Remove(redDotUnit);
+        return RedDotUnitList.Remove(redDotUnit);
     }
 }
