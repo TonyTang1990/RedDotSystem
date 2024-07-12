@@ -16,11 +16,6 @@ using UnityEngine;
 public class RedDotManager : SingletonTemplate<RedDotManager>
 {
     /// <summary>
-    /// 红点运算单元结果值Map<红点运算单元, 红点运算单元结果值>
-    /// </summary>
-    private Dictionary<RedDotUnit, int> mRedDotUnitResultMap;
-
-    /// <summary>
     /// 标脏的红点运算单元Map<红点运算单元, 红点运算单元>
     /// </summary>
     private Dictionary<RedDotUnit, RedDotUnit> mDirtyRedDotUnitMap;
@@ -70,24 +65,10 @@ public class RedDotManager : SingletonTemplate<RedDotManager>
     /// </summary>
     private void InitRedDotData()
     {
-        InitRedDotUnitResultMap();
         mDirtyRedDotUnitMap = new Dictionary<RedDotUnit, RedDotUnit>();
         //mResultChangedRedDotUnitList = new List<RedDotUnit>();
         mCaculatedRedDotUnitResultChangeMap = new Dictionary<RedDotUnit, bool>();
         mResultChangedRedDotNameMap = new Dictionary<string, string>();
-    }
-
-    /// <summary>
-    /// 初始化红点运算结果Map
-    /// </summary>
-    private void InitRedDotUnitResultMap()
-    {
-        mRedDotUnitResultMap = new Dictionary<RedDotUnit, int>();
-        var redDotUnitValues = Enum.GetValues(typeof(RedDotUnit));
-        foreach(var redDotUnitValue in redDotUnitValues)
-        {
-            mRedDotUnitResultMap.Add((RedDotUnit)redDotUnitValue, 0);
-        }
     }
 
     /// <summary>
@@ -136,7 +117,7 @@ public class RedDotManager : SingletonTemplate<RedDotManager>
             var redDotType = RedDotType.NONE;
             foreach (var redDotUnit in redDotUnitList)
             {
-                var redDotUnitResult = GetRedDotUnitResult(redDotUnit);
+                var redDotUnitResult = RedDotModel.Singleton.GetRedDotUnitResult(redDotUnit);
                 if (redDotUnitResult > 0)
                 {
                     var redDotType2 = RedDotModel.Singleton.GetRedDotUnitRedType(redDotUnit);
@@ -198,41 +179,10 @@ public class RedDotManager : SingletonTemplate<RedDotManager>
         var result = 0;
         foreach(var redDotUnit in redDotUnitList)
         {
-            var redDotUnitResult = GetRedDotUnitResult(redDotUnit);
+            var redDotUnitResult = RedDotModel.Singleton.GetRedDotUnitResult(redDotUnit);
             result += redDotUnitResult;
         }
         return result;
-    }
-
-    /// <summary>
-    /// 获取指定红点单元的运算结果
-    /// </summary>
-    /// <param name="redDotUnit"></param>
-    /// <returns></returns>
-    public int GetRedDotUnitResult(RedDotUnit redDotUnit)
-    {
-        int result;
-        if(!mRedDotUnitResultMap.TryGetValue(redDotUnit, out result))
-        {
-            Debug.LogError($"找不到红点运算单元:{redDotUnit}的运算结果!");
-        }
-        return result;
-    }
-
-    /// <summary>
-    /// 设置指定红点运算单元的运算结果
-    /// </summary>
-    /// <param name="redDotUnit"></param>
-    /// <param name="result"></param>
-    public bool SetRedDotUnitResult(RedDotUnit redDotUnit, int result)
-    {
-        if (!mRedDotUnitResultMap.ContainsKey(redDotUnit))
-        {
-            Debug.LogError($"未添加红点运算单元:{redDotUnit}的结果数据, 设置红点运算单元结果失败!");
-            return false;
-        }
-        mRedDotUnitResultMap[redDotUnit] = result;
-        return true;
     }
 
     /// <summary>
@@ -348,7 +298,7 @@ public class RedDotManager : SingletonTemplate<RedDotManager>
     /// <returns></returns>
     private bool DoRedDotUnitCaculate(RedDotUnit redDotUnit)
     {
-        var preResult = GetRedDotUnitResult(redDotUnit);
+        var preResult = RedDotModel.Singleton.GetRedDotUnitResult(redDotUnit);
         var redDotUnitFunc = RedDotModel.Singleton.GetRedDotUnitFunc(redDotUnit);
         var result = 0;
         if(redDotUnitFunc != null)
@@ -359,7 +309,7 @@ public class RedDotManager : SingletonTemplate<RedDotManager>
         {
             //Debug.LogError($"红点运算单元:{redDotUnit.ToString()}未绑定有效计算方法!");
         }
-        SetRedDotUnitResult(redDotUnit, result);
+        RedDotModel.Singleton.SetRedDotUnitResult(redDotUnit, result);
         return preResult != result;
     }
 }

@@ -81,37 +81,5 @@ public class RedDotUnitInfo
         RedDotUnitDes = redDotUnitDes;
         RedDotUnitCalculateFunc = redDotUnitCalculateFunc;
         RedDotType = redDotType;
-        RedDotNameLsit = new List<string>();
-    }
-
-    /// <summary>
-    /// 添加影响的红点名
-    /// </summary>
-    /// <param name="redDotName"></param>
-    /// <returns></returns>
-    public bool AddRedDotName(string redDotName)
-    {
-        if(!RedDotNameLsit.Contains(redDotName))
-        {
-            RedDotNameLsit.Add(redDotName);
-            return true;
-        }
-        Debug.LogError($"红点运算单元:{RedDotUnit.ToString()}重复添加影响红点名:{redDotName}");
-        return false;
-    }
-
-    /// <summary>
-    /// 移除影响的红点名
-    /// </summary>
-    /// <param name="redDotName"></param>
-    /// <returns></returns>
-    public bool RemoveRedDotName(string redDotName)
-    {
-        if (!RedDotNameLsit.Contains(redDotName))
-        {
-            Debug.LogError($"红点运算单元:{RedDotUnit.ToString()}未添加影响红点名:{redDotName},移除失败!");
-            return false;
-        }
-        return RedDotNameLsit.Remove(redDotName);
     }
 }

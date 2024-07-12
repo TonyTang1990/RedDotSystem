@@ -282,7 +282,7 @@ public class RedDotEditorWindow : EditorWindow
         EditorGUILayout.LabelField(redDotUnitInfo.RedDotUnit.ToString(), RedDotStyles.ButtonMidStyle, GUILayout.Width(200f), GUILayout.Height(20f));
         EditorGUILayout.LabelField(redDotUnitInfo.RedDotUnitDes, RedDotStyles.ButtonMidStyle, GUILayout.Width(200f), GUILayout.Height(20f));
         EditorGUILayout.LabelField(redDotUnitInfo.RedDotType.ToString(), RedDotStyles.ButtonMidStyle, GUILayout.Width(120f), GUILayout.Height(20f));
-        var redDotUnitResult = RedDotManager.Singleton.GetRedDotUnitResult(redDotUnitInfo.RedDotUnit);
+        var redDotUnitResult = RedDotModel.Singleton.GetRedDotUnitResult(redDotUnitInfo.RedDotUnit);
         var preColor = GUI.color;
         if(redDotUnitResult > 0)
         {
@@ -290,7 +290,8 @@ public class RedDotEditorWindow : EditorWindow
         }
         EditorGUILayout.LabelField(redDotUnitResult.ToString(), RedDotStyles.ButtonMidStyle, GUILayout.Width(120f), GUILayout.Height(20f));
         GUI.color = preColor;
-        foreach(var redDotName in redDotUnitInfo.RedDotNameLsit)
+        var redDotNames = RedDotModel.Singleton.GetRedDotNamesByUnit(redDotUnitInfo.RedDotUnit);
+        foreach(var redDotName in redDotNames)
         {
             preColor = GUI.color;
             GUI.color = Color.green;

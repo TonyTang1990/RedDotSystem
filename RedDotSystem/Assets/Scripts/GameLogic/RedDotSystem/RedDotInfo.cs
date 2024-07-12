@@ -25,6 +25,15 @@ public class RedDotInfo
     }
 
     /// <summary>
+    /// 所有影响此红点的红点单元列表
+    /// </summary>
+    public List<RedDotUnit> RedDotUnitList
+    {
+        get;
+        private set;
+    }
+    
+    /// <summary>
     /// 红点描述
     /// </summary>
     public string RedDotDes
@@ -42,6 +51,11 @@ public class RedDotInfo
         private set;
     }
 
+    private RedDotInfo()
+    {
+        RedDotUnitList = new List<RedDotUnit>();
+    }
+
     /// <summary>
     /// 构造函数
     /// </summary>
@@ -51,6 +65,7 @@ public class RedDotInfo
     {
         RedDotName = redDotName;
         RedDotDes = redDotDes;
+        RedDotUnitList = new List<RedDotUnit>();
     }
 
     /// <summary>
@@ -85,5 +100,36 @@ public class RedDotInfo
         {
             RefreshDelegate(RedDotName, result, redDotType);
         }
+    }
+
+    /// <summary>
+    /// 添加影响的红点运算单元
+    /// </summary>
+    /// <param name="redDotUnit"></param>
+    /// <returns></returns>
+    public bool AddRedDotUnit(RedDotUnit redDotUnit)
+    {
+        if (RedDotNameLsit.Contains(redDotUnit))
+        {
+            Debug.LogError($"红点名:{RedDotName}重复添加影响红点运算单元:{redDotUnit.ToString()}，添加失败！");
+            return false;
+        }
+        RedDotNameLsit.Add(redDotUnit);
+        return true;
+    }
+
+    /// <summary>
+    /// 移除影响的红点运算单元
+    /// </summary>
+    /// <param name="redDotName"></param>
+    /// <returns></returns>
+    public bool RemoveRedDotUnit(RedDotUnit redDotUnit)
+    {
+        if (!RedDotNameLsit.Contains(redDotUnit))
+        {
+            Debug.LogError($"红点名:{RedDotName}未添加影响红点运算单元:{redDotUnit.ToString()}，移除失败!");
+            return false;
+        }
+        return RedDotNameLsit.Remove(redDotUnit);
     }
 }
