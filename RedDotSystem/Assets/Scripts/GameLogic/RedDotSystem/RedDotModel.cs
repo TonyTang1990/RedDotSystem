@@ -112,7 +112,7 @@ public class RedDotModel : SingletonTemplate<RedDotModel>
         /// Note:
         /// 穷举的好处是足够灵活
         /// 缺点是删除最里层红点运算单元需要把外层所有影响到的红点名相关红点运算单元配置删除
-        // 调用AddRedDotInfo添加游戏所有静态红点信息
+        /// 调用AddRedDotInfo添加游戏所有静态红点信息
         InitMainUIRedDotInfo();
         InitBackpackUIRedDotInfo();
         InitMailUIRedDotInfo();
@@ -316,17 +316,6 @@ public class RedDotModel : SingletonTemplate<RedDotModel>
             Debug.LogError($"找不到红点运算单元:{redDotUnit.ToString()}的信息!");
         }
         return redDotUnitInfo;
-    }
-
-    /// <summary>
-    /// 获取指定红点运算单元影响的红点名列表
-    /// </summary>
-    /// <param name="redDotUnit"></param>
-    /// <returns></returns>
-    public List<string> GetRedDotUnitNames(RedDotUnit redDotUnit)
-    {
-        RedDotUnitInfo redDotUnitInfo = GetRedDotUnitInfo(redDotUnit);
-        return redDotUnitInfo?.RedDotNameLsit;
     }
 
     /// <summary>

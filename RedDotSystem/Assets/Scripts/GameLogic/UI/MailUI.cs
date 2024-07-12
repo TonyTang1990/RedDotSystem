@@ -151,9 +151,15 @@ public class MailUI : MonoBehaviour
     /// </summary>
     private void RefreshRedDotView()
     {
-        RedDotManager.Singleton.TriggerRedDotNameUpdate(RedDotNames.MAIL_UI_PUBLIC_MAIL);
-        RedDotManager.Singleton.TriggerRedDotNameUpdate(RedDotNames.MAIL_UI_BATTLE_MAIL);
-        RedDotManager.Singleton.TriggerRedDotNameUpdate(RedDotNames.MAIL_UI_OTHER_MAIL);
+        (int result, RedDotType redDotType) redDotNameResult;
+        redDotNameResult = RedDotManager.Singleton.GetRedDotNameResult(RedDotNames.MAIL_UI_PUBLIC_MAIL);
+        OnRedDotRefresh(RedDotNames.MAIL_UI_PUBLIC_MAIL, redDotNameResult.result, redDotNameResult.redDotType);
+
+        redDotNameResult = RedDotManager.Singleton.GetRedDotNameResult(RedDotNames.MAIL_UI_BATTLE_MAIL);
+        OnRedDotRefresh(RedDotNames.MAIL_UI_BATTLE_MAIL, redDotNameResult.result, redDotNameResult.redDotType);
+
+        redDotNameResult = RedDotManager.Singleton.GetRedDotNameResult(RedDotNames.MAIL_UI_OTHER_MAIL);
+        OnRedDotRefresh(RedDotNames.MAIL_UI_OTHER_MAIL, redDotNameResult.result, redDotNameResult.redDotType);
     }
 
     /// <summary>
@@ -187,9 +193,9 @@ public class MailUI : MonoBehaviour
     /// </summary>
     private void UnbindAllRedDotNames()
     {
-        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.MAIL_UI_PUBLIC_MAIL);
-        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.MAIL_UI_BATTLE_MAIL);
-        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.MAIL_UI_OTHER_MAIL);
+        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.MAIL_UI_PUBLIC_MAIL, OnRedDotRefresh);
+        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.MAIL_UI_BATTLE_MAIL, OnRedDotRefresh);
+        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.MAIL_UI_OTHER_MAIL, OnRedDotRefresh);
     }
 
     /// <summary>

@@ -43,15 +43,6 @@ public class RedDotUnitInfo
     }
 
     /// <summary>
-    /// 影响的红点名列表
-    /// </summary>
-    public List<string> RedDotNameLsit
-    {
-        get;
-        private set;
-    }
-
-    /// <summary>
     /// 红点运算单元对应红点计算回调
     /// </summary>
     public Func<int> RedDotUnitCalculateFunc

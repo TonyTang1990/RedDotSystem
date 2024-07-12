@@ -55,6 +55,8 @@ public class GameLauncher : MonoBehaviour
         mSingleton = this;
         RedDotModel.Singleton.Init();
         RedDotManager.Singleton.Init();
+        // 所有数据初始化完成后触发一次红点运算单元计算
+        RedDotManager.Singleton.DoAllRedDotUnitCaculate();
     }
 
     private void Start()

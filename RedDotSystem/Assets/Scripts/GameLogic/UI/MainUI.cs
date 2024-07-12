@@ -172,12 +172,24 @@ public class MainUI : MonoBehaviour
     /// </summary>
     private void RefreshRedDotView()
     {
-        RedDotManager.Singleton.TriggerRedDotNameUpdate(RedDotNames.MAIN_UI_MENU);
-        RedDotManager.Singleton.TriggerRedDotNameUpdate(RedDotNames.MAIN_UI_MAIL);
-        RedDotManager.Singleton.TriggerRedDotNameUpdate(RedDotNames.MAIN_UI_MENU_BACKPACK);
-        RedDotManager.Singleton.TriggerRedDotNameUpdate(RedDotNames.MAIN_UI_MENU_EQUIP);
-        RedDotManager.Singleton.TriggerRedDotNameUpdate(RedDotNames.MAIN_UI_NEW_FUNC1);
-        RedDotManager.Singleton.TriggerRedDotNameUpdate(RedDotNames.MAIN_UI_NEW_FUNC2);
+        (int result, RedDotType redDotType) redDotNameResult;
+        redDotNameResult = RedDotManager.Singleton.GetRedDotNameResult(RedDotNames.MAIN_UI_MENU);
+        OnRedDotRefresh(RedDotNames.MAIN_UI_MENU, redDotNameResult.result, redDotNameResult.redDotType);
+
+        redDotNameResult = RedDotManager.Singleton.GetRedDotNameResult(RedDotNames.MAIN_UI_MAIL);
+        OnRedDotRefresh(RedDotNames.MAIN_UI_MAIL, redDotNameResult.result, redDotNameResult.redDotType);
+
+        redDotNameResult = RedDotManager.Singleton.GetRedDotNameResult(RedDotNames.MAIN_UI_MENU_BACKPACK);
+        OnRedDotRefresh(RedDotNames.MAIN_UI_MENU_BACKPACK, redDotNameResult.result, redDotNameResult.redDotType);
+
+        redDotNameResult = RedDotManager.Singleton.GetRedDotNameResult(RedDotNames.MAIN_UI_MENU_EQUIP);
+        OnRedDotRefresh(RedDotNames.MAIN_UI_MENU_EQUIP, redDotNameResult.result, redDotNameResult.redDotType);
+
+        redDotNameResult = RedDotManager.Singleton.GetRedDotNameResult(RedDotNames.MAIN_UI_NEW_FUNC1);
+        OnRedDotRefresh(RedDotNames.MAIN_UI_NEW_FUNC1, redDotNameResult.result, redDotNameResult.redDotType);
+
+        redDotNameResult = RedDotManager.Singleton.GetRedDotNameResult(RedDotNames.MAIN_UI_NEW_FUNC2);
+        OnRedDotRefresh(RedDotNames.MAIN_UI_NEW_FUNC2, redDotNameResult.result, redDotNameResult.redDotType);
     }
 
     /// <summary>
@@ -267,7 +279,7 @@ public class MainUI : MonoBehaviour
     /// </summary>
     private void OnBtnDynamicFunc2Click()
     {
-        GameModel.Singleton.SetNewFunc1(false);
+        GameModel.Singleton.SetNewFunc2(false);
     }
 
     /// <summary>
@@ -291,12 +303,12 @@ public class MainUI : MonoBehaviour
     /// </summary>
     private void UnbindAllRedDotNames()
     {
-        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.MAIN_UI_MENU);
-        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.MAIN_UI_MAIL);
-        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.MAIN_UI_MENU_BACKPACK);
-        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.MAIN_UI_MENU_EQUIP);
-        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.MAIN_UI_NEW_FUNC1);
-        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.MAIN_UI_NEW_FUNC2);
+        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.MAIN_UI_MENU, OnRedDotRefresh);
+        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.MAIN_UI_MAIL, OnRedDotRefresh);
+        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.MAIN_UI_MENU_BACKPACK, OnRedDotRefresh);
+        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.MAIN_UI_MENU_EQUIP, OnRedDotRefresh);
+        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.MAIN_UI_NEW_FUNC1, OnRedDotRefresh);
+        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.MAIN_UI_NEW_FUNC2, OnRedDotRefresh);
     }
 
     /// <summary>

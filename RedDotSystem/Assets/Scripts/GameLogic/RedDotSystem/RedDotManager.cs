@@ -21,11 +21,6 @@ public class RedDotManager : SingletonTemplate<RedDotManager>
     private Dictionary<RedDotUnit, RedDotUnit> mDirtyRedDotUnitMap;
 
     /// <summary>
-    /// 红点运算单元结果改变列表
-    /// </summary>
-    //private List<RedDotUnit> mResultChangedRedDotUnitList;
-
-    /// <summary>
     /// 结果变化的红点名数据Map<红点名, 红点名>
     /// </summary>
     private Dictionary<string, string> mResultChangedRedDotNameMap;
@@ -66,7 +61,6 @@ public class RedDotManager : SingletonTemplate<RedDotManager>
     private void InitRedDotData()
     {
         mDirtyRedDotUnitMap = new Dictionary<RedDotUnit, RedDotUnit>();
-        //mResultChangedRedDotUnitList = new List<RedDotUnit>();
         mCaculatedRedDotUnitResultChangeMap = new Dictionary<RedDotUnit, bool>();
         mResultChangedRedDotNameMap = new Dictionary<string, string>();
     }
@@ -152,8 +146,9 @@ public class RedDotManager : SingletonTemplate<RedDotManager>
     /// 解绑定指定红点名
     /// </summary>
     /// <param name="redDotName"></param>
+    /// <param name="refreshDelegate"></param>
     /// <returns></returns>
-    public void UnbindRedDotName(string redDotName)
+    public void UnbindRedDotName(string redDotName, Action<string, int, RedDotType> refreshDelegate)
     {
         var redDotInfo = RedDotModel.Singleton.GetRedDotInfoByName(redDotName);
         if (redDotInfo == null)
@@ -161,7 +156,7 @@ public class RedDotManager : SingletonTemplate<RedDotManager>
             Debug.LogError($"找不到红点名:{redDotName}红点信息,解绑定失败!");
             return;
         }
-        redDotInfo.UnBind();
+        redDotInfo.UnBind(refreshDelegate);
     }
 
     /// <summary>
@@ -235,14 +230,6 @@ public class RedDotManager : SingletonTemplate<RedDotManager>
         {
             return;
         }
-        //mResultChangedRedDotUnitList.Clear();
-        //foreach(var dirtyRedDotUnit in mDirtyRedDotUnitMap)
-        //{
-        //    if(DoRedDotUnitCaculate(dirtyRedDotUnit.Key))
-        //    {
-        //        mResultChangedRedDotUnitList.Add(dirtyRedDotUnit.Key);
-        //    }
-        //}
         // 部分红点单元单纯是影响因素，不会决定最终红点数量
         // 所以这里要把标脏的红点单元影响到的红点名所有红点单元都触发计算看是否有相关结论变化
         // 有相关红点单元的结果变化的红点名才需要通知上层逻辑回调刷新
@@ -251,7 +238,7 @@ public class RedDotManager : SingletonTemplate<RedDotManager>
         foreach(var dirtyRedDotUnit in mDirtyRedDotUnitMap)
         {
             var realRedDotUnit = dirtyRedDotUnit.Key;
-            var redDotNameList = RedDotModel.Singleton.GetRedDotUnitNames(realRedDotUnit);
+            var redDotNameList = RedDotModel.Singleton.GetRedDotNamesByUnit(realRedDotUnit);
             if(redDotNameList == null || redDotNameList.Count == 0)
             {
                 continue;

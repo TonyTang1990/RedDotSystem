@@ -102,8 +102,12 @@ public class EquipUI : MonoBehaviour
     /// </summary>
     private void RefreshRedDotView()
     {
-        RedDotManager.Singleton.TriggerRedDotNameUpdate(RedDotNames.EQUIP_UI_WEARABLE);
-        RedDotManager.Singleton.TriggerRedDotNameUpdate(RedDotNames.EQUIP_UI_UPGRADABLE);
+        (int result, RedDotType redDotType) redDotNameResult;
+        redDotNameResult = RedDotManager.Singleton.GetRedDotNameResult(RedDotNames.EQUIP_UI_WEARABLE);
+        OnRedDotRefresh(RedDotNames.EQUIP_UI_WEARABLE, redDotNameResult.result, redDotNameResult.redDotType);
+
+        redDotNameResult = RedDotManager.Singleton.GetRedDotNameResult(RedDotNames.EQUIP_UI_UPGRADABLE);
+        OnRedDotRefresh(RedDotNames.EQUIP_UI_UPGRADABLE, redDotNameResult.result, redDotNameResult.redDotType);
     }
 
     /// <summary>
@@ -176,8 +180,8 @@ public class EquipUI : MonoBehaviour
     /// </summary>
     private void UnbindAllRedDotNames()
     {
-        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.EQUIP_UI_WEARABLE);
-        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.EQUIP_UI_UPGRADABLE);
+        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.EQUIP_UI_WEARABLE, OnRedDotRefresh);
+        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.EQUIP_UI_UPGRADABLE, OnRedDotRefresh);
     }
 
     /// <summary>

@@ -43,7 +43,7 @@ public class RedDotInfo
     }
 
     /// <summary>
-    /// 红点刷新委托(理论上只会绑定一个回调)
+    /// 红点刷新委托(一般只会绑定一个回调)
     /// </summary>
     public Action<string, int, RedDotType> RefreshDelegate
     {
@@ -72,21 +72,24 @@ public class RedDotInfo
     /// 红点对象刷新绑定
     /// </summary>
     /// <param name="refreshDelegate"></param>
-    public void Bind(Action<string, int, RedDotType> refreshDelegate)
+    public bool Bind(Action<string, int, RedDotType> refreshDelegate)
     {
-        if(RefreshDelegate != null)
+        if(refreshDelegate == null)
         {
-            Debug.LogError($"红点名:{RedDotName}重复绑定刷新回调!");
+            Debug.LogError($"红点名:{RedDotName}不允许绑定空刷新回调!");
+            return false;
         }
-        RefreshDelegate = refreshDelegate;
+        RefreshDelegate += refreshDelegate;
+        return true;
     }
 
     /// <summary>
     /// 红点对象解绑定
     /// </summary>
-    public void UnBind()
+    /// <param name="refreshDelegate"></param>
+    public void UnBind(Action<string, int, RedDotType> refreshDelegate)
     {
-        RefreshDelegate = null;
+        RefreshDelegate -= refreshDelegate;
     }
 
     /// <summary>
@@ -98,7 +101,7 @@ public class RedDotInfo
     {
         if(RefreshDelegate != null)
         {
-            RefreshDelegate(RedDotName, result, redDotType);
+            RefreshDelegate.Invoke(RedDotName, result, redDotType);
         }
     }
 

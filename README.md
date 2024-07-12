@@ -90,25 +90,32 @@
 
 ### 红点定义流程
 
-1. **定义红点名并初始化**
+1. **红点系统初始化**
 
    ```CS
-   AddRedDotInfo(RedDotNames.MAIN_UI_NEW_FUNC1, "主界面新功能1红点");
-   *******
+           RedDotModel.Singleton.Init();
+           RedDotManager.Singleton.Init();
+           // 所有数据初始化完成后触发一次红点运算单元计算
+           RedDotManager.Singleton.DoAllRedDotUnitCaculate();
    ```
 
-   
-
-2. **定义红点名的红点运算单元组成并初始化**
+2. **定义红点运算单元并初始化**
 
    ```CS
-   RedDotUnitInfo redDotUnitInfo;
-           redDotUnitInfo = AddRedDotUnitInfo(RedDotUnit.NEW_FUNC1, "动态新功能1解锁", RedDotUtilities.CaculateNewFunc1, RedDotType.NEW);
-           redDotUnitInfo.AddRedDotName(RedDotNames.MAIN_UI_NEW_FUNC1);
+   AddRedDotUnitInfo(RedDotUnit.NEW_FUNC1, "动态新功能1解锁", RedDotUtilities.CaculateNewFunc1, RedDotType.NEW);
    ******
    ```
 
-3. **上层逻辑编写新红点运算单元的逻辑计算回调**
+3. **定义红点名以及对应红点运算单元组成并初始化**
+
+   ```CS
+           RedDotInfo redDotInfo;
+           redDotInfo = AddRedDotInfo(RedDotNames.MAIN_UI_NEW_FUNC1, "主界面新功能1红点");
+           redDotInfo.AddRedDotUnit(RedDotUnit.NEW_FUNC1);
+   *******
+   ```
+
+4. **上层逻辑编写新红点运算单元的逻辑计算回调**
 
    ```CS
    /// <summary>
@@ -121,7 +128,7 @@
    }
    ```
 
-4. **上层逻辑绑定红点名刷新**
+5. **上层逻辑绑定红点名刷新**
 
    ```CS
    
@@ -150,7 +157,15 @@
    }
    ```
 
-5. **上层逻辑触发红点名或红点运算单元标脏后，等待红点系统统一触发计算并回调**
+6. **上层逻辑首次初始化红点数据**
+
+   ```CS
+           (int result, RedDotType redDotType) redDotNameResult;
+           redDotNameResult = RedDotManager.Singleton.GetRedDotNameResult(RedDotNames.MAIN_UI_MENU);
+           OnRedDotRefresh(RedDotNames.MAIN_UI_MENU, redDotNameResult.result, redDotNameResult.redDotType);
+   ```
+
+7. **上层逻辑触发红点名或红点运算单元标脏后，等待红点系统统一触发计算并回调**
 
    ```CS
    /// <summary>

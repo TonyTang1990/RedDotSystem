@@ -129,9 +129,15 @@ public class BackpackUI : MonoBehaviour
     /// </summary>
     private void RefreshTagRedDotView()
     {
-        RedDotManager.Singleton.TriggerRedDotNameUpdate(RedDotNames.BACKPACK_UI_ITEM_TAG);
-        RedDotManager.Singleton.TriggerRedDotNameUpdate(RedDotNames.BACKPACK_UI_RESOURCE_TAG);
-        RedDotManager.Singleton.TriggerRedDotNameUpdate(RedDotNames.BACKPACK_UI_EQUIP_TAG);
+        (int result, RedDotType redDotType) redDotNameResult;
+        redDotNameResult = RedDotManager.Singleton.GetRedDotNameResult(RedDotNames.BACKPACK_UI_ITEM_TAG);
+        OnRedDotRefresh(RedDotNames.BACKPACK_UI_ITEM_TAG, redDotNameResult.result, redDotNameResult.redDotType);
+
+        redDotNameResult = RedDotManager.Singleton.GetRedDotNameResult(RedDotNames.BACKPACK_UI_RESOURCE_TAG);
+        OnRedDotRefresh(RedDotNames.BACKPACK_UI_RESOURCE_TAG, redDotNameResult.result, redDotNameResult.redDotType);
+
+        redDotNameResult = RedDotManager.Singleton.GetRedDotNameResult(RedDotNames.BACKPACK_UI_EQUIP_TAG);
+        OnRedDotRefresh(RedDotNames.BACKPACK_UI_EQUIP_TAG, redDotNameResult.result, redDotNameResult.redDotType);
     }
 
     /// <summary>
@@ -252,9 +258,9 @@ public class BackpackUI : MonoBehaviour
     /// </summary>
     private void UnbindAllRedDotNames()
     {
-        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.BACKPACK_UI_ITEM_TAG);
-        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.BACKPACK_UI_RESOURCE_TAG);
-        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.BACKPACK_UI_EQUIP_TAG);
+        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.BACKPACK_UI_ITEM_TAG, OnRedDotRefresh);
+        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.BACKPACK_UI_RESOURCE_TAG, OnRedDotRefresh);
+        RedDotManager.Singleton.UnbindRedDotName(RedDotNames.BACKPACK_UI_EQUIP_TAG, OnRedDotRefresh);
     }
 
     /// <summary>
