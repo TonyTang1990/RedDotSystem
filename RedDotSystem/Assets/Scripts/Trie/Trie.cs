@@ -92,10 +92,14 @@ public class Trie
             else
             {
                 node = node.GetChildNode(spliteWord);
-                if(isLast)
+                if(!node.IsTail && isLast)
                 {
-                    Debug.Log($"添加重复单词:{word}");
+                    node.IsTail = isLast;
                 }
+                //if(isLast)
+                //{
+                //    Debug.Log($"添加重复单词:{word}");
+                //}
             }
         }
     }
