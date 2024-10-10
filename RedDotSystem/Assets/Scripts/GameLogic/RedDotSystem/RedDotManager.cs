@@ -226,6 +226,10 @@ public class RedDotManager : SingletonTemplate<RedDotManager>
     /// </summary>
     private void CheckDirtyRedDotUnit()
     {
+        if(!RedDotModel.Singleton.IsInitCompelte)
+        {
+            return;
+        }
         if(mDirtyRedDotUnitMap.Count == 0)
         {
             return;
