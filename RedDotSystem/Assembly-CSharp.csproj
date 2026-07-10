@@ -1,21 +1,26 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="Current">
   <!-- Generated file, do not modify, your changes will be overwritten (use AssetPostprocessor.OnGeneratedCSProject) -->
   <PropertyGroup>
-    <LangVersion>9.0</LangVersion>
+    <BaseIntermediateOutputPath>Temp\obj\$(Configuration)\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
   </PropertyGroup>
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+  <ItemGroup>
+    <ProjectCapability Include="Unity" />
+  </ItemGroup>
   <PropertyGroup>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <LangVersion>9.0</LangVersion>
+    <Configurations>Debug;Release</Configurations>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.20506</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{4977E1B6-A2A7-1B17-B025-050D8AAC3700}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <BaseDirectory>.</BaseDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -39,47 +44,97 @@
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
-    <NoConfig>true</NoConfig>
+    <NoStandardLibraries>true</NoStandardLibraries>
     <NoStdLib>true</NoStdLib>
-    <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
-    <ImplicitlyExpandNETStandardFacades>false</ImplicitlyExpandNETStandardFacades>
-    <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
+    <NoConfig>true</NoConfig>
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+    <MSBuildWarningsAsMessages>MSB3277</MSBuildWarningsAsMessages>
   </PropertyGroup>
   <PropertyGroup>
-    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnityProjectGenerator>Package</UnityProjectGenerator>
     <UnityProjectGeneratorVersion>2.0.22</UnityProjectGeneratorVersion>
-    <UnityProjectGeneratorStyle>Legacy</UnityProjectGeneratorStyle>
+    <UnityProjectGeneratorStyle>SDK</UnityProjectGeneratorStyle>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2022.3.62f3</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="G:\Software\VisualStudio\VS2022\Install\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\TonyTang\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.2.2\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="G:\Software\UnityAllVersions\2022.3.62f3\2022.3.62f3\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="G:\Software\UnityAllVersions\2022.3.62f3\2022.3.62f3\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\GameLogic\UI\MailUI.cs" />
-    <Compile Include="Assets\Scripts\GameLogic\UI\EquipUI.cs" />
+    <Compile Include="Assets\Scripts\Core\ED\BaseEvent.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Common\View\Widget\CommonBtnWidget.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Equip\RedDot\RedDotHandler\EquipUIWearableRDH.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Level\RedDot\RedDotHandler\LevelRewardRDH.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Level\View\UI\LevelEntryUI.cs" />
     <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotType.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotInitializer.cs" />
     <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotInfo.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Backpack\RedDot\RedDotHandler\BackpackUIItemTagRDH.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Mail\RedDot\RedDotHandler\MailUIPublicMailRDH.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Model\BaseModel.cs" />
     <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotManager.cs" />
-    <Compile Include="Assets\Scripts\GameLogic\UI\MailDetailUI.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Backpack\RedDot\RedDotHandler\BackpackUIResourceTagRDH.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Equip\Data\EquipModel.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\SystemRDInitializer.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\PVE\Agent\PVEAgent.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RootRDInitializer.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\System\Data\SystemUnlockModel.cs" />
     <Compile Include="Assets\Scripts\Trie\TrieNode.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Level\RedDot\RedDotInitializer\LevelRDInitializer.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Equip\RedDot\RedDotInitializer\EquipRDInitializer.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Level\Agent\LevelAgent.cs" />
     <Compile Include="Assets\Scripts\Core\Pool\ObjectPool.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\MainUI\RedDot\RedDotInitializer\MainUIRDInitializer.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Level\Data\LevelModel.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Level\RedDot\RedDotHandler\LevelUpgradeRDH.cs" />
     <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotUtilities.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\PVE\RedDot\RedDotInitializer\PVERDInitializer.cs" />
+    <Compile Include="Assets\Scripts\Core\ED\EventComponent.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Activity\View\UI\ActivityUI.cs" />
     <Compile Include="Assets\Scripts\GameLauncher.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Mail\Data\MailModel.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\FuncRDInitializer.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Backpack\RedDot\RedDotHandler\BackpackUIEquipTagRDH.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\PVE\RedDot\RedDotHandler\PVERewardRDH.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotHandler.cs" />
     <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotNames.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Equip\View\UI\EquipUI.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Equip\Agent\EquipAgent.cs" />
     <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotUnit.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Backpack\View\UI\BackpackUI.cs" />
     <Compile Include="Assets\Scripts\Trie\Trie.cs" />
-    <Compile Include="Assets\Scripts\GameLogic\UI\BackpackUI.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Common\View\Widget\RedDotWidget.cs" />
     <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotModel.cs" />
-    <Compile Include="Assets\Scripts\GameLogic\Widget\RedDotWidget.cs" />
+    <Compile Include="Assets\Scripts\Core\ED\EventManager.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotUnitBindData.cs" />
     <Compile Include="Assets\Scripts\GameLogic\GameModel.cs" />
-    <Compile Include="Assets\Scripts\GameLogic\UI\MainUI.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Activity\Data\ActivityModel.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\MainUI\View\UI\MainUI.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Activity\RedDot\RedDotHandler\ActRed2NumRDH.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Level\View\UI\LevelUI.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\System\Data\SystemType.cs" />
+    <Compile Include="Assets\Scripts\Core\ED\EventId.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Mail\RedDot\RedDotInitializer\MailRDInitializer.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Mail\View\UI\MailUI.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\PVE\View\UI\PVEUI.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Activity\Data\ActivityData.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\UI\BaseUI.cs" />
     <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\RedDotUnitInfo.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\PVE\Data\PVEModel.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Activity\Agent\ActivityAgent.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Activity\View\Widget\ActivityEntryWidget.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Level\View\Widget\LevelEntryWidget.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Equip\RedDot\RedDotHandler\EquipUIUpgradableRDH.cs" />
     <Compile Include="Assets\Scripts\Core\Singleton\SingletonTemplate.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Activity\RedDot\RedDotHandler\ActRed1NumRDH.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Mail\RedDot\RedDotHandler\MailUIOtherMailRDH.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\RedDotSystem\DynamicRedDotHandler.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Backpack\RedDot\RedDotInitializer\BackpackRDInitializer.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Backpack\Data\BackpackModel.cs" />
+    <Compile Include="Assets\Scripts\GameLogic\Module\Mail\RedDot\RedDotHandler\MailUIBattleMailRDH.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -985,13 +1040,16 @@
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="GenerateTargetFrameworkMonikerAttribute" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+  <ItemGroup>
+    <ProjectCapability Remove="LaunchProfiles" />
+    <ProjectCapability Remove="SharedProjectReferences" />
+    <ProjectCapability Remove="ReferenceManagerSharedProjects" />
+    <ProjectCapability Remove="ProjectReferences" />
+    <ProjectCapability Remove="ReferenceManagerProjects" />
+    <ProjectCapability Remove="COMReferences" />
+    <ProjectCapability Remove="ReferenceManagerCOM" />
+    <ProjectCapability Remove="AssemblyReferences" />
+    <ProjectCapability Remove="ReferenceManagerAssemblies" />
+  </ItemGroup>
 </Project>

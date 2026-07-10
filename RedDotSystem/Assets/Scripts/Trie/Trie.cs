@@ -18,7 +18,7 @@ public class Trie
     /// <summary>
     /// 单词分隔符
     /// </summary>
-    public char Separator
+    public string Separator
     {
         get;
         private set;
@@ -52,22 +52,58 @@ public class Trie
     }
 
     /// <summary>
+    /// 所有节点Map(Key为节点名，Value为节点信息)
+    /// Note:
+    /// 方便使用父子关系时快速查询节点名
+    /// </summary>
+    private Dictionary<string, TrieNode> mAllNodeMap;
+
+    /// <summary>
     /// 单词列表(用于缓存分割结果，优化单个单词判定时重复分割问题)
     /// </summary>
     private List<string> mWordList;
 
     /// <summary>
+    /// 临时字符串构建器
+    /// </summary>
+    private StringBuilder mTempStringBuilder;
+
+    public Trie()
+    {
+        Separator = "|";
+        WorldCount = 0;
+        TrieDeepth = 0;
+        RootNode = ObjectPool.Singleton.pop<TrieNode>();
+        RootNode.Init("Root", null, this, 0, false);
+        mAllNodeMap = new Dictionary<string, TrieNode>();
+        mWordList = new List<string>();
+        mTempStringBuilder = new StringBuilder();
+    }
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="separator"></param>
-    public Trie(char separator = '|')
+    public Trie(string separator = "|")
     {
         Separator = separator;
         WorldCount = 0;
         TrieDeepth = 0;
         RootNode = ObjectPool.Singleton.pop<TrieNode>();
         RootNode.Init("Root", null, this, 0, false);
+        mAllNodeMap = new Dictionary<string, TrieNode>();
         mWordList = new List<string>();
+        mTempStringBuilder = new StringBuilder();
+    }
+
+    /// <summary>
+    /// 释放
+    /// </summary>
+    public void Dispose()
+    {
+        RemoveAllTrieNode();
+        mWordList.Clear();
+        mTempStringBuilder.Clear();
     }
 
     /// <summary>
@@ -88,6 +124,7 @@ public class Trie
             if (!node.ContainWord(spliteWord))
             {
                 node = node.AddChildNode(spliteWord, isLast);
+                AddTrieNode(node);
             }
             else
             {
@@ -142,19 +179,20 @@ public class Trie
             wordNode.IsTail = false;
             return true;
         }
-        wordNode.RemoveFromParent();
-        // 网上遍历更新节点信息
+        // 提前存储父节点信息，避免节点移除后拿不到数据
+        // 往上遍历更新节点信息
         var node = wordNode.Parent;
+        RemoveTrieNode(wordNode);
         while(node != null && !node.IsRoot)
         {
             // 没有子节点且不是单词节点则直接删除
             if(node.ChildCount == 0 && !node.IsTail)
             {
-                node.RemoveFromParent();
+                RemoveTrieNode(node);
             }
             node = node.Parent;
             // 有子节点则停止往上更新
-            if(node.ChildCount > 0)
+            if(node != null && node.ChildCount > 0)
             {
                 break;
             }
@@ -163,32 +201,119 @@ public class Trie
     }
 
     /// <summary>
+    /// 添加指定节点
+    /// </summary>
+    /// <param name="word"></param>
+    /// <param name="node"></param>
+    /// <returns></returns>
+    private bool AddTrieNode(TrieNode node)
+    {
+        if(node == null)
+        {
+            Debug.LogError($"不允许添加空节点!");
+            return false;
+        }
+        var word = node.NodeValue;
+        if(mAllNodeMap.ContainsKey(word))
+        {
+            Debug.LogError($"节点:{word}已存在，不允许重复添加，请检查代码!");
+            return false;
+        }
+        mAllNodeMap.Add(word, node);
+        return true;
+    }
+
+    /// <summary>
+    /// 移除指定节点
+    /// </summary>
+    /// <param name="node"></param>
+    /// <returns></returns>
+    private bool RemoveTrieNode(TrieNode node)
+    {
+        if (node == null)
+        {
+            Debug.LogError($"不允许移除空节点!");
+            return false;
+        }
+        var word = node.NodeValue;
+        if(!mAllNodeMap.TryGetValue(word, out var trieNode))
+        {
+            Debug.LogError($"节点:{word}不存在，无法移除，请检查代码!");
+            return false;
+        }
+        if(trieNode != node)
+        {
+            Debug.LogError($"节点:{word}对象不一致，无法移除，请检查代码!");
+            return false;
+        }
+        node.RemoveFromParent();
+        mAllNodeMap.Remove(word);
+        ObjectPool.Singleton.push<TrieNode>(node);
+        return true;
+    }
+
+    /// <summary>
+    /// 移除所有节点数据
+    /// </summary>
+    public void RemoveAllTrieNode()
+    {
+        // 必须从里层往顶层清理
+        var nodes = mAllNodeMap.Values.ToList();
+        nodes.Sort(SortTrieNodes);
+        foreach(var node in nodes)
+        {
+            RemoveTrieNode(node);
+        }
+    }
+
+    /// <summary>
+    /// 排序节点(深度大的在前面，方便从里层往顶层清理节点数据)
+    /// </summary>
+    /// <param name="node1"></param>
+    /// <param name="node2"></param>
+    /// <returns></returns>
+    private int SortTrieNodes(TrieNode node1, TrieNode node2)
+    {
+        if(node1.Depth != node2.Depth)
+        {
+            return node2.Depth.CompareTo(node1.Depth);
+        }
+        return node2.NodeValue.CompareTo(node1.NodeValue);
+    }
+
+    /// <summary>
     /// 获取指定字符串的单词节点
     /// Note:
     /// 只有满足每一层且最后一层是单词的节点才算有效单词节点
+    /// 时间复杂度O(1)
     /// </summary>
     /// <param name="word"></param>
     /// <returns></returns>
     public TrieNode GetWordNode(string word)
     {
-        if (string.IsNullOrEmpty(word))
+        if(string.IsNullOrEmpty(word))
         {
-            Debug.LogError($"无法获取空单词的单次节点!");
+            Debug.LogError($"不允许获取空单词的单词节点!");
             return null;
         }
-        // 从最里层节点开始反向判定更新和删除
-        var wordArray = word.Split(Separator);
-        var node = RootNode;
-        foreach(var spliteWord in wordArray)
+        var words = word.Split(Separator);
+        if(words == null || words.Length == 0)
         {
-            var childNode = node.GetChildNode(spliteWord);
-            if (childNode != null)
+            Debug.LogError($"单词:{word}分割后没有有效单词，获取单词节点失败!");
+            return null;
+        }
+        mWordList.Clear();
+        mWordList.AddRange(words);
+        var length = mWordList.Count;
+        var node = RootNode;
+        for (int i = 0; i < length; i++)
+        {
+            var spliteWord = mWordList[i];
+            node = node.GetChildNode(spliteWord);
+            if(node == null)
             {
-                node = childNode;
-            }
-            else
-            {
-                break;
+                Debug.LogError($"找不到单词:{word}的节点信息，获取单词节点失败!");
+                return null;
             }
         }
         if(node == null || !node.IsTail)
@@ -275,6 +400,55 @@ public class Trie
         var childNode = trieNode.GetChildNode(firstWord);
         wordList.RemoveAt(0);
         return MatchWord(childNode, wordList);
+    }
+
+    /// <summary>
+    /// 获取指定单词的所有父单词列表(不含自身)
+    /// </summary>
+    /// <param name="word"></param>
+    /// <param name="wordList"></param>
+    public void GetParentWordList(string word, ref List<string> wordList)
+    {
+        var trieNode = GetWordNode(word);
+        if(trieNode == null || !trieNode.IsTail)
+        {
+            return;
+        }
+        wordList.Clear();
+        var parentNode = trieNode.Parent;
+        while(parentNode != null && !parentNode.IsRoot)
+        {
+            if(parentNode.IsTail)
+            {
+                var parentNodeWord = GetNodeWord(parentNode);
+                wordList.Add(parentNodeWord);
+            }
+            parentNode = parentNode.Parent;
+        }
+    }
+
+    /// <summary>
+    /// 获取指定节点的单词
+    /// Note:
+    /// 如果节点不是单词则返回空字符串
+    /// </summary>
+    /// <param name="node"></param>
+    /// <returns></returns>
+    private string GetNodeWord(TrieNode node)
+    {
+        if (node == null || !node.IsTail)
+        {
+            return string.Empty;
+        }
+        mTempStringBuilder.Clear();
+        mTempStringBuilder.Append(node.NodeValue);
+        var parentNode = node.Parent;
+        while(parentNode != null && !parentNode.IsRoot)
+        {
+            mTempStringBuilder.Insert(0, $"{parentNode.NodeValue}{Separator}");
+            parentNode = parentNode.Parent;
+        }
+        return mTempStringBuilder.ToString();
     }
 
     /// <summary>

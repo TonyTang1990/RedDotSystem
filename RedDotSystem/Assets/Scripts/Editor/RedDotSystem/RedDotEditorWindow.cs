@@ -22,15 +22,31 @@ public class RedDotEditorWindow : EditorWindow
     /// </summary>
     public enum RedDotSystemTag
     {
-        RED_DOT_TREE = 0,                   // 红点数页签类型
-        RED_DOT_UNITS,                      // 红点运算单元页签类型
-        RED_DOT_DETAIL,                     // 红点详情页签类型
+        /// <summary>
+        /// 红点数页签类型
+        /// </summary>
+        RED_DOT_TREE = 0,
+
+        /// <summary>
+        /// 红点运算单元页签类型
+        /// </summary>
+        RED_DOT_UNITS,
+
+        /// <summary>
+        /// 红点详情页签类型
+        /// </summary>
+        RED_DOT_DETAIL,
+
+        /// <summary>
+        /// 红点初始化器
+        /// </summary>
+        RED_DOT_INITIALIZER,
     }
 
     /// <summary>
     /// 红点系统页签名字
     /// </summary>
-    private string[] mRedDotTagNames = new string[3] { "红点树", "红点运算单元", "红点名详情" };
+    private string[] mRedDotTagNames = new string[4] { "红点树", "红点运算单元", "红点名详情", "红点初始化器" };
 
     /// <summary>
     /// 当前页签选择索引
@@ -70,7 +86,7 @@ public class RedDotEditorWindow : EditorWindow
     /// <summary>
     /// 打开红点系统可视化窗口
     /// </summary>
-    [MenuItem("ToolsWindow/红点系统可视化窗口")]
+    [MenuItem("ToolsWindow/红点系统/红点系统可视化窗口")]
     public static void Open()
     {
         RedDotEditorWindow redDotEditorWindow = (RedDotEditorWindow)EditorWindow.GetWindow<RedDotEditorWindow>(false, "红点系统可视化窗口");
@@ -130,6 +146,10 @@ public class RedDotEditorWindow : EditorWindow
         else if(mSelectedTagIndex == (int)RedDotSystemTag.RED_DOT_DETAIL)
         {
             DrawRedDotDetailArea();
+        }
+        else if(mSelectedTagIndex == (int)RedDotSystemTag.RED_DOT_INITIALIZER)
+        {
+            DrawRedDotInitializerArea();
         }
     }
 
@@ -348,6 +368,50 @@ public class RedDotEditorWindow : EditorWindow
             DrawRedDotUnitInfo(redDotUnitInfo);
         }
         EditorGUILayout.EndVertical();
+    }
+
+    /// <summary>
+    /// 绘制红点初始化器区域
+    /// </summary>
+    private void DrawRedDotInitializerArea()
+    {
+        EditorGUILayout.BeginVertical("box");
+        var rootRedDotInitializer = RedDotInitializer.Singleton.RootRDInitializer;
+        if(rootRedDotInitializer == null)
+        {
+            EditorGUILayout.LabelField($"根红点初始化器未创建!", RedDotStyles.ButtonMidStyle, GUILayout.ExpandWidth(true), GUILayout.Height(20f));
+            EditorGUILayout.EndVertical();
+            return;
+        }
+        var initializerDepth = 0;
+        DrawFuncRedDotInitializer(rootRedDotInitializer, initializerDepth);
+        EditorGUILayout.EndVertical();
+    }
+
+    /// <summary>
+    /// 绘制功能红点初始化器
+    /// </summary>
+    /// <param name="funcRedDotInitializer"></param>
+    /// <param name="depth"></param>
+    private void DrawFuncRedDotInitializer(FuncRDInitializer funcRedDotInitializer, int depth)
+    {
+        if(funcRedDotInitializer == null)
+        {
+            EditorGUILayout.LabelField($"无效的红点初始化器!", RedDotStyles.ButtonMidStyle, GUILayout.ExpandWidth(true), GUILayout.Height(20f));
+            return;
+        }
+        EditorGUILayout.BeginHorizontal("box");
+        GUILayout.Space(depth * 150f);
+        EditorGUILayout.LabelField($"{funcRedDotInitializer.GetType().Name}", RedDotStyles.ButtonMidStyle, GUILayout.Width(150f), GUILayout.Height(20f));
+        EditorGUILayout.LabelField($"是否激活:{funcRedDotInitializer.IsActive}", RedDotStyles.ButtonMidStyle, GUILayout.Width(150f), GUILayout.Height(20f));
+        var nestedInitializerCount = funcRedDotInitializer.NestedInitializerMap != null ? funcRedDotInitializer.NestedInitializerMap.Count : 0;
+        EditorGUILayout.LabelField($"嵌套数量:{nestedInitializerCount}", RedDotStyles.ButtonMidStyle, GUILayout.Width(150f), GUILayout.Height(20f));
+        EditorGUILayout.EndHorizontal();
+        var nestedDepth = depth + 1;
+        foreach(var nestedInitializerSet in funcRedDotInitializer.NestedInitializerMap)
+        {
+            DrawFuncRedDotInitializer(nestedInitializerSet.Value, nestedDepth);
+        }
     }
 
     /// <summary>

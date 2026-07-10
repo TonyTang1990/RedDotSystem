@@ -182,7 +182,6 @@ public class TrieNode : IRecycle
             return false;
         }
         ChildNodesMap.Remove(childNode.NodeValue);
-        ObjectPool.Singleton.push<TrieNode>(childNode);
         return true;
     }
 

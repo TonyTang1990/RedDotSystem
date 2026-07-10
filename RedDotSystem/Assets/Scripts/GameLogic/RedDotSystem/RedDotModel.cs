@@ -13,17 +13,22 @@ using UnityEngine;
 /// RedDotModel.cs
 /// 红点数据单例类
 /// </summary>
-public class RedDotModel : SingletonTemplate<RedDotModel>
+public class RedDotModel : BaseModel<RedDotModel>
 {
+    /// <summary>
+    /// 红点名分隔符
+    /// </summary>
+    public const string Separator = "|";
+
     /// <summary>
     /// 红点运算单元信息Map<红点运算单元名, 红点运算单元信息>
     /// </summary>
-    private Dictionary<RedDotUnit, RedDotUnitInfo> mRedDotUnitInfoMap;
+    private Dictionary<string, RedDotUnitInfo> mRedDotUnitInfoMap;
 
     /// <summary>
     /// 红点运算单元结果值Map<红点运算单元, 红点运算单元结果值>
     /// </summary>
-    private Dictionary<RedDotUnit, int> mRedDotUnitResultMap;
+    private Dictionary<string, int> mRedDotUnitResultMap;
 
     /// <summary>
     /// 红点名和红点信息Map<红点名, 红点信息>
@@ -33,7 +38,7 @@ public class RedDotModel : SingletonTemplate<RedDotModel>
     /// <summary>
     /// 红点单元和红点名列表Map
     /// </summary>
-    private Dictionary<RedDotUnit, List<string>> mRedDotUnitNameMap;
+    private Dictionary<string, List<string>> mRedDotUnitNameMap;
 
     /// <summary>
     /// 红点前缀树
@@ -45,208 +50,128 @@ public class RedDotModel : SingletonTemplate<RedDotModel>
     }
 
     /// <summary>
-    /// 初始化是否完成
-    /// </summary>
-    public bool IsInitCompelte
-    {
-        get;
-        private set;
-    }
-
-    /// <summary>
     /// 构造函数
     /// </summary>
-    public RedDotModel()
+    public RedDotModel() : base()
     {
-        mRedDotUnitInfoMap = new Dictionary<RedDotUnit, RedDotUnitInfo>();
-        mRedDotUnitResultMap = new Dictionary<RedDotUnit, int>();
+        mRedDotUnitInfoMap = new Dictionary<string, RedDotUnitInfo>();
+        mRedDotUnitResultMap = new Dictionary<string, int>();
         mRedDotInfoMap = new Dictionary<string, RedDotInfo>();
-        mRedDotUnitNameMap = new Dictionary<RedDotUnit, List<string>>();
-        IsInitCompelte = false;
+        mRedDotUnitNameMap = new Dictionary<string, List<string>>();
+        RedDotTrie = new Trie(Separator);
     }
 
     /// <summary>
-    /// 初始化
+    /// 响应初始化
     /// </summary>
-    public void Init()
+    protected override void OnInit()
     {
-        if (IsInitCompelte)
-        {
-            Debug.LogError($"请勿重复初始化!");
-            return;
-        }
-        // 优先初始化红点单元，现在改成通过红点名正向配置红点单元组成，而非反向红点单元定义影响红点名组成
-        InitRedDotUnitInfo();
-        InitRedDotInfo();
-        InitRedDotTree();
-        // InitRedDotUnitNameMap必须在InitRedDotInfo之后调用，因为用到了前面的数据
-        UpdateRedDotUnitNameMap();
-        IsInitCompelte = true;
+        base.OnInit();
     }
 
     /// <summary>
-    /// 初始化红点运算单元信息
+    /// 响应释放
     /// </summary>
-    private void InitRedDotUnitInfo()
+    protected override void OnDispose()
     {
-        // 构建添加所有游戏里的红点运算单元信息
-        AddRedDotUnitInfo(RedDotUnit.NEW_FUNC1, "动态新功能1解锁", RedDotUtilities.CaculateNewFunc1, RedDotType.NEW);
-        AddRedDotUnitInfo(RedDotUnit.NEW_FUNC2, "动态新功能2解锁", RedDotUtilities.CaculateNewFunc2, RedDotType.NEW);
-        AddRedDotUnitInfo(RedDotUnit.NEW_ITEM_NUM, "新道具数", RedDotUtilities.CaculateNewItemNum, RedDotType.NUMBER);
-        AddRedDotUnitInfo(RedDotUnit.NEW_RESOURCE_NUM, "新资源数", RedDotUtilities.CaculateNewResourceNum, RedDotType.NUMBER);
-        AddRedDotUnitInfo(RedDotUnit.NEW_EQUIP_NUM, "新装备数", RedDotUtilities.CaculateNewEquipNum, RedDotType.NUMBER);
-        AddRedDotUnitInfo(RedDotUnit.NEW_PUBLIC_MAIL_NUM, "新公共邮件数", RedDotUtilities.CaculateNewPublicMailNum, RedDotType.NUMBER);
-        AddRedDotUnitInfo(RedDotUnit.NEW_BATTLE_MAIL_NUM, "新战斗邮件数", RedDotUtilities.CaculateNewBattleMailNum, RedDotType.NUMBER);
-        AddRedDotUnitInfo(RedDotUnit.NEW_OTHER_MAIL_NUM, "新其他邮件数", RedDotUtilities.CaculateNewOtherMailNum, RedDotType.NUMBER);
-        AddRedDotUnitInfo(RedDotUnit.PUBLIC_MAIL_REWARD_NUM, "公共邮件可领奖数", RedDotUtilities.CaculateNewPublicMailRewardNum, RedDotType.NUMBER);
-        AddRedDotUnitInfo(RedDotUnit.BATTLE_MAIL_REWARD_NUM, "战斗邮件可领奖数", RedDotUtilities.CaculateNewBattleMailRewardNum, RedDotType.NUMBER);
-        AddRedDotUnitInfo(RedDotUnit.WEARABLE_EQUIP_NUM, "可穿戴装备数", RedDotUtilities.CaculateWearableEquipNum, RedDotType.NUMBER);
-        AddRedDotUnitInfo(RedDotUnit.UPGRADEABLE_EQUIP_NUM, "可升级装备数", RedDotUtilities.CaculateUpgradeableEquipNum, RedDotType.NUMBER);
+        base.OnDispose();
+        mRedDotUnitInfoMap.Clear();
+        mRedDotUnitResultMap.Clear();
+        mRedDotInfoMap.Clear();
+        mRedDotUnitNameMap.Clear();
+        RedDotTrie.Dispose();
     }
 
     /// <summary>
-    /// 初始化红点信息
-    /// </summary>
-    private void InitRedDotInfo()
-    {
-        /// Note:
-        /// 穷举的好处是足够灵活
-        /// 缺点是删除最里层红点运算单元需要把外层所有影响到的红点名相关红点运算单元配置删除
-        /// 调用AddRedDotInfo添加游戏所有静态红点信息
-        InitMainUIRedDotInfo();
-        InitBackpackUIRedDotInfo();
-        InitMailUIRedDotInfo();
-        InitEquipUIRedDotInfo();
-    }
-
-    /// <summary>
-    /// 初始化主界面红点信息
-    /// </summary>
-    private void InitMainUIRedDotInfo()
-    {
-        RedDotInfo redDotInfo;
-        redDotInfo = AddRedDotInfo(RedDotNames.MAIN_UI_NEW_FUNC1, "主界面新功能1红点");
-        redDotInfo.AddRedDotUnit(RedDotUnit.NEW_FUNC1);
-
-        redDotInfo = AddRedDotInfo(RedDotNames.MAIN_UI_NEW_FUNC2, "主界面新功能2红点");
-        redDotInfo.AddRedDotUnit(RedDotUnit.NEW_FUNC2);
-
-        redDotInfo = AddRedDotInfo(RedDotNames.MAIN_UI_MENU, "主界面菜单红点");
-        redDotInfo.AddRedDotUnit(RedDotUnit.NEW_ITEM_NUM);
-        redDotInfo.AddRedDotUnit(RedDotUnit.NEW_RESOURCE_NUM);
-        redDotInfo.AddRedDotUnit(RedDotUnit.NEW_EQUIP_NUM);
-
-        redDotInfo = AddRedDotInfo(RedDotNames.MAIN_UI_MAIL, "主界面邮件红点");
-        redDotInfo.AddRedDotUnit(RedDotUnit.NEW_PUBLIC_MAIL_NUM);
-        redDotInfo.AddRedDotUnit(RedDotUnit.NEW_BATTLE_MAIL_NUM);
-        redDotInfo.AddRedDotUnit(RedDotUnit.NEW_OTHER_MAIL_NUM);
-        redDotInfo.AddRedDotUnit(RedDotUnit.PUBLIC_MAIL_REWARD_NUM);
-
-        redDotInfo = AddRedDotInfo(RedDotNames.MAIN_UI_MENU_EQUIP, "主界面菜单装备红点");
-        redDotInfo.AddRedDotUnit(RedDotUnit.WEARABLE_EQUIP_NUM);
-        redDotInfo.AddRedDotUnit(RedDotUnit.UPGRADEABLE_EQUIP_NUM);
-
-        redDotInfo = AddRedDotInfo(RedDotNames.MAIN_UI_MENU_BACKPACK, "主界面菜单背包红点");
-        redDotInfo.AddRedDotUnit(RedDotUnit.NEW_ITEM_NUM);
-        redDotInfo.AddRedDotUnit(RedDotUnit.NEW_RESOURCE_NUM);
-    }
-
-    /// <summary>
-    /// 初始化背包界面红点信息
-    /// </summary>
-    private void InitBackpackUIRedDotInfo()
-    {
-        RedDotInfo redDotInfo;
-        redDotInfo = AddRedDotInfo(RedDotNames.BACKPACK_UI_ITEM_TAG, "背包界面道具页签红点");
-        redDotInfo.AddRedDotUnit(RedDotUnit.NEW_ITEM_NUM);
-
-        redDotInfo = AddRedDotInfo(RedDotNames.BACKPACK_UI_RESOURCE_TAG, "背包界面资源页签红点");
-        redDotInfo.AddRedDotUnit(RedDotUnit.NEW_RESOURCE_NUM);
-
-        redDotInfo = AddRedDotInfo(RedDotNames.BACKPACK_UI_EQUIP_TAG, "背包界面装备页签红点");
-        redDotInfo.AddRedDotUnit(RedDotUnit.NEW_EQUIP_NUM);
-    }
-
-    /// <summary>
-    /// 初始化邮件界面红点信息
-    /// </summary>
-    private void InitMailUIRedDotInfo()
-    {
-        RedDotInfo redDotInfo;
-        redDotInfo = AddRedDotInfo(RedDotNames.MAIL_UI_PUBLIC_MAIL, "邮件界面公共邮件红点");
-        redDotInfo.AddRedDotUnit(RedDotUnit.NEW_PUBLIC_MAIL_NUM);
-        redDotInfo.AddRedDotUnit(RedDotUnit.PUBLIC_MAIL_REWARD_NUM);
-
-        redDotInfo = AddRedDotInfo(RedDotNames.MAIL_UI_BATTLE_MAIL, "邮件界面战斗邮件红点");
-        redDotInfo.AddRedDotUnit(RedDotUnit.NEW_BATTLE_MAIL_NUM);
-        redDotInfo.AddRedDotUnit(RedDotUnit.BATTLE_MAIL_REWARD_NUM);
-
-        redDotInfo = AddRedDotInfo(RedDotNames.MAIL_UI_OTHER_MAIL, "邮件界面其他邮件红点");
-        redDotInfo.AddRedDotUnit(RedDotUnit.NEW_OTHER_MAIL_NUM);
-    }
-
-    /// <summary>
-    /// 初始化装备界面红点信息
-    /// </summary>
-    private void InitEquipUIRedDotInfo()
-    {
-        RedDotInfo redDotInfo;
-        redDotInfo = AddRedDotInfo(RedDotNames.EQUIP_UI_WEARABLE, "装备界面可穿戴红点");
-        redDotInfo.AddRedDotUnit(RedDotUnit.WEARABLE_EQUIP_NUM);
-
-        redDotInfo = AddRedDotInfo(RedDotNames.EQUIP_UI_UPGRADABLE, "装备界面可升级红点");
-        redDotInfo.AddRedDotUnit(RedDotUnit.UPGRADEABLE_EQUIP_NUM);
-    }
-
-    /// <summary>
-    /// 添加红点信息
+    /// 添加指定红点信息(不带红点处理器)
+    /// 没有独立红点单元信息的红点无需构造红点处理器
     /// </summary>
     /// <param name="redDotName"></param>
     /// <param name="redDotDes"></param>
-    private RedDotInfo AddRedDotInfo(string redDotName, string redDotDes)
+    /// <returns></returns>
+    public (bool, RedDotInfo) AddRedDotInfo(string redDotName, string redDotDes)
     {
-        if (mRedDotInfoMap.ContainsKey(redDotName))
+        if (mRedDotInfoMap.TryGetValue(redDotName, out var existRedDotInfo))
         {
-            Debug.LogError($"重复添加红点名:{redDotName}信息，添加失败!");
-            return null;
+            Debug.LogError($"已添加红点名:{redDotName}的红点信息,请勿重复添加,添加失败!");
+            return (false, existRedDotInfo);
         }
-        var redDotInfo = new RedDotInfo(redDotName, redDotDes);
+        var redDotInfo = ObjectPool.Singleton.pop<RedDotInfo>();
+        redDotInfo.Init(redDotName, redDotDes);
         mRedDotInfoMap.Add(redDotName, redDotInfo);
-        return redDotInfo;
+        RedDotTrie.AddWord(redDotName);
+        return (true, redDotInfo);
     }
 
     /// <summary>
-    /// 构建红点前缀树
+    /// 添加指定红点信息(带红点处理器)
+    /// 有独立红点单元信息的红点需要构造红点处理器
     /// </summary>
-    private void InitRedDotTree()
+    /// <param name="redDotName"></param>
+    /// <param name="redDotDes"></param>
+    /// <returns></returns>
+    public (bool, RedDotInfo) AddRedDotInfo<T>(string redDotName, string redDotDes) where T : RedDotHandler, new()
     {
-        RedDotTrie = new Trie();
-        foreach (var redDotInfo in mRedDotInfoMap)
+        if (mRedDotInfoMap.TryGetValue(redDotName, out var existRedDotInfo))
         {
-            RedDotTrie.AddWord(redDotInfo.Key);
+            Debug.LogError($"已添加红点名:{redDotName}的红点信息,请勿重复添加,添加失败!");
+            return (false, existRedDotInfo);
         }
+        var redDotHandler = new T();
+        var redDotInfo = ObjectPool.Singleton.pop<RedDotInfo>();
+        redDotInfo.Init(redDotName, redDotDes, redDotHandler);
+        // 在红点处理器初始化之前必须先将红点信息添加进去
+        // 不然后续可能找不到当前红点信息
+        mRedDotInfoMap.Add(redDotName, redDotInfo);
+        RedDotTrie.AddWord(redDotName);
+        redDotHandler.Init(redDotInfo);
+        return (true, redDotInfo);
     }
 
     /// <summary>
-    /// 根据mRedDotInfoMap反向构建mRedDotNameUnitMap
+    /// 添加指定动态红点信息(带红点处理器，带动态参数)
+    /// 有独立红点单元信息的红点需要构造红点处理器
     /// </summary>
-    private void UpdateRedDotUnitNameMap()
+    /// <param name="redDotName"></param>
+    /// <param name="redDotDes"></param>
+    /// <param name="dynamicData"></param>
+    /// <returns></returns>
+    public (bool, RedDotInfo) AddDynamicRedDotInfo<T, W>(string redDotName, string redDotDes, W dynamicData) where T : DynamicRedDotHandler<W>, new()
     {
-        mRedDotUnitNameMap.Clear();
-        foreach (var redDotInfo in mRedDotInfoMap)
+        if (mRedDotInfoMap.TryGetValue(redDotName, out var existRedDotInfo))
         {
-            foreach (var redDotUnit in redDotInfo.Value.RedDotUnitList)
-            {
-                if (!mRedDotUnitNameMap.ContainsKey(redDotUnit))
-                {
-                    mRedDotUnitNameMap.Add(redDotUnit, new List<string>());
-                }
-                if (!mRedDotUnitNameMap[redDotUnit].Contains(redDotInfo.Key))
-                {
-                    mRedDotUnitNameMap[redDotUnit].Add(redDotInfo.Value.RedDotName);
-                }
-            }
+            Debug.LogError($"已添加红点名:{redDotName}的红点信息,请勿重复添加,添加失败!");
+            return (false, existRedDotInfo);
         }
+        var redDotHandler = new T();
+        var redDotInfo = ObjectPool.Singleton.pop<RedDotInfo>();
+        redDotInfo.Init(redDotName, redDotDes, redDotHandler);
+        redDotHandler.Data = dynamicData;
+        // 在红点处理器初始化之前必须先将红点信息添加进去
+        // 不然后续可能找不到当前红点信息
+        mRedDotInfoMap.Add(redDotName, redDotInfo);
+        RedDotTrie.AddWord(redDotName);
+        redDotHandler.Init(redDotInfo);
+
+        return (true, redDotInfo);
+    }
+
+    /// <summary>
+    /// 移除指定红点名信息
+    /// </summary>
+    /// <param name="redDotName"></param>
+    /// <returns></returns>
+    public bool RemoveRedDotInfo(string redDotName)
+    {
+        if(!mRedDotInfoMap.TryGetValue(redDotName, out var existRedDotInfo))
+        {
+            Debug.LogError($"找不到红点名:{redDotName}的红点名信息，移除失败！");
+            return false;
+        }
+        existRedDotInfo.Clear();
+        mRedDotInfoMap.Remove(redDotName);
+        RedDotTrie.RemoveWord(redDotName);
+        return true;
     }
 
     /// <summary>
@@ -257,17 +182,45 @@ public class RedDotModel : SingletonTemplate<RedDotModel>
     /// <param name="caculateFunc"></param>
     /// <param name="redDotType"></param>
     /// <returns></returns>
-    private RedDotUnitInfo AddRedDotUnitInfo(RedDotUnit redDotUnit, string redDotUnitDes, Func<int> caculateFunc, RedDotType redDotType = RedDotType.NUMBER)
+    public (bool, RedDotUnitInfo) AddRedDotUnitInfo(string redDotUnit, string redDotUnitDes, Func<int> caculateFunc, RedDotType redDotType = RedDotType.NUMBER)
     {
-        RedDotUnitInfo redDotUnitInfo;
-        if(mRedDotUnitInfoMap.TryGetValue(redDotUnit, out redDotUnitInfo))
+        if(mRedDotUnitInfoMap.TryGetValue(redDotUnit, out var redDotUnitInfo))
         {
-            Debug.LogError($"已添加红点运算单元:{redDotUnit.ToString()}的红点运算单元信息,请勿重复添加,添加失败!");
-            return redDotUnitInfo;
+            Debug.LogError($"已添加红点运算单元:{redDotUnit}的红点运算单元信息,请勿重复添加,添加失败!");
+            return (false, redDotUnitInfo);
         }
-        redDotUnitInfo = new RedDotUnitInfo(redDotUnit, redDotUnitDes, caculateFunc, redDotType);
+        redDotUnitInfo = ObjectPool.Singleton.pop<RedDotUnitInfo>();
+        redDotUnitInfo.Init(redDotUnit, redDotUnitDes, caculateFunc, redDotType);
         mRedDotUnitInfoMap.Add(redDotUnit, redDotUnitInfo);
-        return redDotUnitInfo;
+        return (true, redDotUnitInfo);
+    }
+
+    /// <summary>
+    /// 清除指定红点运算单元信息
+    /// </summary>
+    /// <param name="redDotUnit"></param>
+    /// <returns></returns>
+    public bool RemoveRedDotUnitInfo(string redDotUnit)
+    {
+        if(!mRedDotUnitInfoMap.TryGetValue(redDotUnit, out var redDotUnitInfo))
+        {
+            Debug.LogError($"找不到红点运算单元:{redDotUnit}信息,删除失败!");
+            return false;
+        }
+        redDotUnitInfo.Clear();
+        ObjectPool.Singleton.push(redDotUnitInfo);
+        mRedDotUnitInfoMap.Remove(redDotUnit);
+        return true;
+    }
+
+    /// <summary>
+    /// 是否包含指定红点运算单元信息
+    /// </summary>
+    /// <param name="redDotUnit"></param>
+    /// <returns></returns>
+    public bool ExistsRedDotUnitInfo(string redDotUnit)
+    {
+        return mRedDotUnitInfoMap.ContainsKey(redDotUnit);
     }
 
     /// <summary>
@@ -283,7 +236,7 @@ public class RedDotModel : SingletonTemplate<RedDotModel>
     /// 获取红点运算单元信息Map<红点运算单元门, 红点运算单元信息>
     /// </summary>
     /// <returns></returns>
-    public Dictionary<RedDotUnit, RedDotUnitInfo> GetRedDotUnitInfoMap()
+    public Dictionary<string, RedDotUnitInfo> GetRedDotUnitInfoMap()
     {
         return mRedDotUnitInfoMap;
     }
@@ -298,7 +251,7 @@ public class RedDotModel : SingletonTemplate<RedDotModel>
         RedDotInfo redDotInfo;
         if(!mRedDotInfoMap.TryGetValue(redDotName, out redDotInfo))
         {
-            Debug.LogError($"找不到红点名:{redDotName}的红点信息!");
+            //Debug.LogError($"找不到红点名:{redDotName}的红点信息!");
         }
         return redDotInfo;
     }
@@ -308,7 +261,7 @@ public class RedDotModel : SingletonTemplate<RedDotModel>
     /// </summary>
     /// <param name="redDotUnit"></param>
     /// <returns></returns>
-    public RedDotUnitInfo GetRedDotUnitInfo(RedDotUnit redDotUnit)
+    public RedDotUnitInfo GetRedDotUnitInfo(string redDotUnit)
     {
         RedDotUnitInfo redDotUnitInfo;
         if(!mRedDotUnitInfoMap.TryGetValue(redDotUnit, out redDotUnitInfo))
@@ -323,7 +276,7 @@ public class RedDotModel : SingletonTemplate<RedDotModel>
     /// </summary>
     /// <param name="redDotUnit"></param>
     /// <returns></returns>
-    public Func<int> GetRedDotUnitFunc(RedDotUnit redDotUnit)
+    public Func<int> GetRedDotUnitFunc(string redDotUnit)
     {
         RedDotUnitInfo redDotUnitInfo = GetRedDotUnitInfo(redDotUnit);
         return redDotUnitInfo?.RedDotUnitCalculateFunc;
@@ -334,7 +287,7 @@ public class RedDotModel : SingletonTemplate<RedDotModel>
     /// </summary>
     /// <param name="redDotUnit"></param>
     /// <returns></returns>
-    public RedDotType GetRedDotUnitRedType(RedDotUnit redDotUnit)
+    public RedDotType GetRedDotUnitRedType(string redDotUnit)
     {
         RedDotUnitInfo redDotUnitInfo = GetRedDotUnitInfo(redDotUnit);
         if(redDotUnitInfo != null)
@@ -350,7 +303,7 @@ public class RedDotModel : SingletonTemplate<RedDotModel>
     /// </summary>
     /// <param name="redDotName"></param>
     /// <returns></returns>
-    public List<RedDotUnit> GetRedDotUnitsByName(string redDotName)
+    public List<string> GetRedDotUnitsByName(string redDotName)
     {
         var redDotInfo = GetRedDotInfoByName(redDotName);
         return redDotInfo != null ? redDotInfo.RedDotUnitList : null;
@@ -361,14 +314,57 @@ public class RedDotModel : SingletonTemplate<RedDotModel>
     /// </summary>
     /// <param name="redDotUnit"></param>
     /// <returns></returns>
-    public List<string> GetRedDotNamesByUnit(RedDotUnit redDotUnit)
+    public List<string> GetRedDotNamesByUnit(string redDotUnit)
     {
         List<string> redDotNames;
         if(!mRedDotUnitNameMap.TryGetValue(redDotUnit, out redDotNames))
         {
-            Debug.LogError($"找不到红点运算单元:{redDotUnit.ToString()}的影响红点名信息，获取失败！");
+            Debug.LogError($"找不到红点运算单元:{redDotUnit}的影响红点名信息，获取失败！");
         }
         return redDotNames;
+    }
+
+    /// <summary>
+    /// 添加指定红点运算单元影响的指定红点名
+    /// </summary>
+    /// <param name="redDotUnit"></param>
+    /// <param name="redDotName"></param>
+    /// <returns></returns>
+    public bool AddRedDotUnitAndName(string redDotUnit, string redDotName)
+    {
+        if(!mRedDotUnitNameMap.TryGetValue(redDotUnit, out var redDotNames))
+        {
+            redDotNames = new List<string>();
+            mRedDotUnitNameMap.Add(redDotUnit, redDotNames);
+        }
+        if(redDotNames.Contains(redDotName))
+        {
+           return false; 
+        }
+        redDotNames.Add(redDotName);
+        return true;
+    }
+
+    /// <summary>
+    /// 移除指定红点运算单元影响的指定红点名
+    /// </summary>
+    /// <param name="redDotUnit"></param>
+    /// <param name="redDotName"></param>
+    /// <returns></returns>
+    public bool RemoveRedDotUnitAndName(string redDotUnit, string redDotName)
+    {
+        if(!mRedDotUnitNameMap.TryGetValue(redDotUnit, out var redDotNames))
+        {
+            Debug.LogError($"找不到红点运算单元:{redDotUnit}的影响的红点名数据，移除红点名:{redDotName}失败！");
+            return false;
+        }
+        var result = redDotNames.Remove(redDotName);
+        if(!result)
+        {
+            Debug.LogError($"找不到红点运算单元:{redDotUnit}影响的红点名:{redDotName}，移除失败！");
+            return false;            
+        }
+        return result;
     }
 
     /// <summary>
@@ -376,7 +372,7 @@ public class RedDotModel : SingletonTemplate<RedDotModel>
     /// </summary>
     /// <param name="redDotUnit"></param>
     /// <returns></returns>
-    public int GetRedDotUnitResult(RedDotUnit redDotUnit)
+    public int GetRedDotUnitResult(string redDotUnit)
     {
         int result = 0;
         if(!mRedDotUnitResultMap.TryGetValue(redDotUnit, out result))
@@ -391,7 +387,7 @@ public class RedDotModel : SingletonTemplate<RedDotModel>
     /// <param name="redDotUnit"></param>
     /// <param name="result"></param>
     /// <returns></returns>
-    public bool SetRedDotUnitResult(RedDotUnit redDotUnit, int result)
+    public bool SetRedDotUnitResult(string redDotUnit, int result)
     {
         if(!mRedDotUnitResultMap.ContainsKey(redDotUnit))
         {
@@ -401,4 +397,36 @@ public class RedDotModel : SingletonTemplate<RedDotModel>
         mRedDotUnitResultMap[redDotUnit] = result;
         return true;
     }
+
+    /// <summary>
+    /// 判断指定红点名是否存在
+    /// </summary>
+    /// <param name="redDotName"></param>
+    /// <returns></returns>
+    public bool IsRedDotNameExist(string redDotName)
+    {
+        return mRedDotInfoMap.ContainsKey(redDotName);
+    }
+
+    /// <summary>
+    /// 判断指定红点运算单元是否存在
+    /// </summary>
+    /// <param name="redDotUnit"></param>
+    /// <returns></returns>
+    public bool IsRedDotUnitExist(string redDotUnit)
+    {
+        return mRedDotUnitInfoMap.ContainsKey(redDotUnit);
+    }
+
+    #region 前缀树相关
+    /// <summary>
+    /// 获取指定红点名的父红点名列表(不含自身)
+    /// </summary>
+    /// <param name="redDotName"></param>
+    /// <param name="parentRedDotNameList"></param>
+    public void GetParentRedDotNameList(string redDotName, ref List<string> parentRedDotNameList)
+    {
+        RedDotTrie.GetParentWordList(redDotName, ref parentRedDotNameList);
+    }
+    #endregion
 }

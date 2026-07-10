@@ -13,12 +13,12 @@ using UnityEngine;
 /// RedDotUnitInfo.cs
 /// 红点运算单元信息类
 /// </summary>
-public class RedDotUnitInfo
+public class RedDotUnitInfo : IRecycle
 {
     /// <summary>
     /// 红点运算单元类型
     /// </summary>
-    public RedDotUnit RedDotUnit
+    public string RedDotUnit
     {
         get;
         private set;
@@ -50,27 +50,66 @@ public class RedDotUnitInfo
         get;
         private set;
     }
+    
+    /// <summary>
+    /// 出池
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
+    public void OnCreate()
+    {
+        ResetDatas();
+    }
 
     /// <summary>
-    /// 构造函数
+    /// 入池
     /// </summary>
-    private RedDotUnitInfo()
+    public void OnDispose()
     {
+        ResetDatas();
+    }
 
+    /// <summary>
+    /// 重置数据
+    /// </summary>
+    protected virtual void ResetDatas()
+    {
+        RedDotUnit = null;
+        RedDotUnitDes = null;
+        RedDotUnitCalculateFunc = null;
+        RedDotType = RedDotType.NONE;
     }
 
     /// <summary>
     /// 构造函数
     /// </summary>
+    public RedDotUnitInfo()
+    {
+
+    }
+
+    /// <summary>
+    /// 初始化
+    /// </summary>
     /// <param name="redDotUnit">红点运算单元类型</param>
     /// <param name="redDotUnitDes">红点运算单元描述</param>
     /// <param name="redDotUnitCalculateFunc">红点运算单元计算方法</param>
     /// <param name="redDotType">红点显示类型</param>
-    public RedDotUnitInfo(RedDotUnit redDotUnit, string redDotUnitDes, Func<int> redDotUnitCalculateFunc, RedDotType redDotType)
+    public void Init(string redDotUnit, string redDotUnitDes, Func<int> redDotUnitCalculateFunc, RedDotType redDotType)
     {
         RedDotUnit = redDotUnit;
         RedDotUnitDes = redDotUnitDes;
         RedDotUnitCalculateFunc = redDotUnitCalculateFunc;
         RedDotType = redDotType;
+    }
+
+    /// <summary>
+    /// 清理
+    /// </summary>
+    public void Clear()
+    {
+        RedDotUnit = null;
+        RedDotUnitDes = null;
+        RedDotUnitCalculateFunc = null;
+        RedDotType = RedDotType.NONE;
     }
 }

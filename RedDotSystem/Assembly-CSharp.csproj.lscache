@@ -1,0 +1,379 @@
+version=1
+
+# This file caches language service data to improve the performance of C# Dev Kit.
+# It is not intended for manual editing. It can safely be deleted and will be
+# regenerated automatically.
+#
+# To exclude from version control, add *.lscache to your .gitignore file.
+#
+# To disable caching, add the following to your VS Code settings:
+#   "dotnet.projectsystem.enableLanguageServiceCache": false
+
+[project]
+language=C#
+primary
+lastDtbSucceeded
+
+[properties]
+AssemblyName=Assembly-CSharp
+CommandLineArgsForDesignTimeEvaluation=-langversion:9.0 -define:UNITY_2022_3_62;UNITY_2022_3;UNITY_2022;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;ENABLE_NAVIGATION_PACKAGE_DEBUG_VISUALIZATION;ENABLE_NAVIGATION_HEIGHTMESH_RUNTIME_SUPPORT;ENABLE_NAVIGATION_UI_REQUIRES_PACKAGE;PLATFORM_STANDALONE;TEXTCORE_1_0_OR_NEWER;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;PLATFORM_INITIALIZES_MEMORY_MANAGER_EXPLICITLY;ENABLE_MONO;NET_STANDARD_2_0;NET_STANDARD;NET_STANDARD_2_1;NETSTANDARD;NETSTANDARD2_1;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER
+CompilerGeneratedFilesOutputPath=
+MaxSupportedLangVersion=8.0
+ProjectAssetsFile=<PATH>Temp/obj/Debug/Assembly-CSharp/project.assets.json
+RootNamespace=
+RunAnalyzers=
+RunAnalyzersDuringLiveAnalysis=
+SolutionPath=<PATH>RedDotSystem.sln
+TargetFrameworkIdentifier=.NETStandard
+TargetPath=<PATH>Temp/bin/Debug/Assembly-CSharp.dll
+TargetRefPath=
+TemporaryDependencyNodeTargetIdentifier=netstandard2.1
+
+[commandLineArguments]
+/noconfig
+/unsafe-
+/checked-
+/nowarn:0169,USG0001,1701,1702
+/fullpaths
+/nostdlib+
+/errorreport:prompt
+/warn:4
+/define:UNITY_2022_3_62;UNITY_2022_3;UNITY_2022;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;ENABLE_NAVIGATION_PACKAGE_DEBUG_VISUALIZATION;ENABLE_NAVIGATION_HEIGHTMESH_RUNTIME_SUPPORT;ENABLE_NAVIGATION_UI_REQUIRES_PACKAGE;PLATFORM_STANDALONE;TEXTCORE_1_0_OR_NEWER;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;PLATFORM_INITIALIZES_MEMORY_MANAGER_EXPLICITLY;ENABLE_MONO;NET_STANDARD_2_0;NET_STANDARD;NET_STANDARD_2_1;NETSTANDARD;NETSTANDARD2_1;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER;DEBUG;NETSTANDARD;NETSTANDARD2_1;NETSTANDARD1_0_OR_GREATER;NETSTANDARD1_1_OR_GREATER;NETSTANDARD1_2_OR_GREATER;NETSTANDARD1_3_OR_GREATER;NETSTANDARD1_4_OR_GREATER;NETSTANDARD1_5_OR_GREATER;NETSTANDARD1_6_OR_GREATER;NETSTANDARD2_0_OR_GREATER;NETSTANDARD2_1_OR_GREATER
+/highentropyva+
+/debug+
+/debug:full
+/filealign:512
+/optimize-
+/out:Temp\obj\Debug\Assembly-CSharp\Assembly-CSharp.dll
+/target:library
+/warnaserror-
+/utf8output
+/deterministic+
+/langversion:9.0
+/warnaserror+:NU1605
+
+[sourceFiles]
+Assets/Scripts/Core/ED/
+ BaseEvent.cs
+ EventComponent.cs
+ EventId.cs
+ EventManager.cs
+Assets/Scripts/Core/
+ Pool/ObjectPool.cs
+ Singleton/SingletonTemplate.cs
+Assets/Scripts/
+ GameLauncher.cs
+ GameLogic/
+  GameModel.cs
+  Module/Activity/
+   ActivityManager.cs
+   RedDotInitializer/
+    Activity1RDInitializer.cs
+    Activity2RDInitializer.cs
+    Activity3RDInitializer.cs
+    ActivityRDInitializer.cs
+  Module/Backpack/
+   BackpackManager.cs
+   RedDotHandler/
+    BackpackUIEquipTagRDH.cs
+    BackpackUIItemTagRDH.cs
+    BackpackUIResourceTagRDH.cs
+   RedDotInitializer/BackpackRDInitializer.cs
+  Module/Equip/
+   EquipManager.cs
+   RedDotHandler/
+    EquipUIUpgradableRDH.cs
+    EquipUIWearableRDH.cs
+   RedDotInitializer/EquipRDInitializer.cs
+  Module/Level/
+   LevelManager.cs
+   RedDotHandler/
+    LevelRewardRDH.cs
+    LevelUpgradeRDH.cs
+   RedDotInitializer/LevelRDInitializer.cs
+  Module/Mail/
+   MailManager.cs
+   RedDotHandler/
+    MailUIBattleMailRDH.cs
+    MailUIOtherMailRDH.cs
+    MailUIPublicMailRDH.cs
+   RedDotInitializer/MailRDInitializer.cs
+  Module/MainUI/RedDotHandler/
+   NewFunc1RDH.cs
+   NewFunc2RDH.cs
+  Module/MainUI/RedDotInitializer/MainUIRDInitializer.cs
+  RedDotSystem/
+   DynamicRedDotHandler.cs
+   FuncRDInitializer.cs
+   RedDotHandler.cs
+   RedDotInfo.cs
+   RedDotInitializer.cs
+   RedDotManager.cs
+   RedDotModel.cs
+   RedDotNames.cs
+   RedDotType.cs
+   RedDotUnit.cs
+   RedDotUnitBindData.cs
+   RedDotUnitInfo.cs
+   RedDotUtilities.cs
+   RootRDInitializer.cs
+  UI/
+   ActivityUI.cs
+   BackpackUI.cs
+   EquipUI.cs
+   LevelEntryUI.cs
+   LevelUI.cs
+   MailDetailUI.cs
+   MailUI.cs
+   MainUI.cs
+  Widget/
+   LevelEntryWidget.cs
+   RedDotWidget.cs
+ Trie/
+  Trie.cs
+  TrieNode.cs
+Temp/obj/Debug/Assembly-CSharp/.NETStandard,Version=v2.1.AssemblyAttributes.cs
+
+[metadataReferences]
+../../../../Software/UnityAllVersions/2022.3.62f3/2022.3.62f3/Editor/Data/Managed/UnityEngine/
+ UnityEditor.CoreModule.dll
+ UnityEditor.DeviceSimulatorModule.dll
+ UnityEditor.DiagnosticsModule.dll
+ UnityEditor.dll
+ UnityEditor.EditorToolbarModule.dll
+ UnityEditor.GraphViewModule.dll
+ UnityEditor.PresetsUIModule.dll
+ UnityEditor.QuickSearchModule.dll
+ UnityEditor.SceneTemplateModule.dll
+ UnityEditor.SceneViewModule.dll
+ UnityEditor.TextCoreFontEngineModule.dll
+ UnityEditor.TextCoreTextEngineModule.dll
+ UnityEditor.UIBuilderModule.dll
+ UnityEditor.UIElementsModule.dll
+ UnityEditor.UIElementsSamplesModule.dll
+ UnityEditor.UnityConnectModule.dll
+ UnityEngine.AccessibilityModule.dll
+ UnityEngine.AIModule.dll
+ UnityEngine.AndroidJNIModule.dll
+ UnityEngine.AnimationModule.dll
+ UnityEngine.ARModule.dll
+ UnityEngine.AssetBundleModule.dll
+ UnityEngine.AudioModule.dll
+ UnityEngine.ClothModule.dll
+ UnityEngine.ClusterInputModule.dll
+ UnityEngine.ClusterRendererModule.dll
+ UnityEngine.ContentLoadModule.dll
+ UnityEngine.CoreModule.dll
+ UnityEngine.CrashReportingModule.dll
+ UnityEngine.DirectorModule.dll
+ UnityEngine.dll
+ UnityEngine.DSPGraphModule.dll
+ UnityEngine.GameCenterModule.dll
+ UnityEngine.GIModule.dll
+ UnityEngine.GridModule.dll
+ UnityEngine.HotReloadModule.dll
+ UnityEngine.ImageConversionModule.dll
+ UnityEngine.IMGUIModule.dll
+ UnityEngine.InputLegacyModule.dll
+ UnityEngine.InputModule.dll
+ UnityEngine.JSONSerializeModule.dll
+ UnityEngine.LocalizationModule.dll
+ UnityEngine.ParticleSystemModule.dll
+ UnityEngine.PerformanceReportingModule.dll
+ UnityEngine.Physics2DModule.dll
+ UnityEngine.PhysicsModule.dll
+ UnityEngine.ProfilerModule.dll
+ UnityEngine.PropertiesModule.dll
+ UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll
+ UnityEngine.ScreenCaptureModule.dll
+ UnityEngine.SharedInternalsModule.dll
+ UnityEngine.SpriteMaskModule.dll
+ UnityEngine.SpriteShapeModule.dll
+ UnityEngine.StreamingModule.dll
+ UnityEngine.SubstanceModule.dll
+ UnityEngine.SubsystemsModule.dll
+ UnityEngine.TerrainModule.dll
+ UnityEngine.TerrainPhysicsModule.dll
+ UnityEngine.TextCoreFontEngineModule.dll
+ UnityEngine.TextCoreTextEngineModule.dll
+ UnityEngine.TextRenderingModule.dll
+ UnityEngine.TilemapModule.dll
+ UnityEngine.TLSModule.dll
+ UnityEngine.UIElementsModule.dll
+ UnityEngine.UIModule.dll
+ UnityEngine.UmbraModule.dll
+ UnityEngine.UnityAnalyticsCommonModule.dll
+ UnityEngine.UnityAnalyticsModule.dll
+ UnityEngine.UnityConnectModule.dll
+ UnityEngine.UnityCurlModule.dll
+ UnityEngine.UnityTestProtocolModule.dll
+ UnityEngine.UnityWebRequestAssetBundleModule.dll
+ UnityEngine.UnityWebRequestAudioModule.dll
+ UnityEngine.UnityWebRequestModule.dll
+ UnityEngine.UnityWebRequestTextureModule.dll
+ UnityEngine.UnityWebRequestWWWModule.dll
+ UnityEngine.VehiclesModule.dll
+ UnityEngine.VFXModule.dll
+ UnityEngine.VideoModule.dll
+ UnityEngine.VirtualTexturingModule.dll
+ UnityEngine.VRModule.dll
+ UnityEngine.WindModule.dll
+ UnityEngine.XRModule.dll
+../../../../Software/UnityAllVersions/2022.3.62f3/2022.3.62f3/Editor/Data/NetStandard/compat/2.1.0/shims/netfx/
+ mscorlib.dll
+ System.ComponentModel.Composition.dll
+ System.Core.dll
+ System.Data.dll
+ System.dll
+ System.Drawing.dll
+ System.IO.Compression.FileSystem.dll
+ System.Net.dll
+ System.Numerics.dll
+ System.Runtime.Serialization.dll
+ System.ServiceModel.Web.dll
+ System.Transactions.dll
+ System.Web.dll
+ System.Windows.dll
+ System.Xml.dll
+ System.Xml.Linq.dll
+ System.Xml.Serialization.dll
+../../../../Software/UnityAllVersions/2022.3.62f3/2022.3.62f3/Editor/Data/NetStandard/compat/2.1.0/shims/netstandard/
+ Microsoft.Win32.Primitives.dll
+ System.AppContext.dll
+ System.Buffers.dll
+ System.Collections.Concurrent.dll
+ System.Collections.dll
+ System.Collections.NonGeneric.dll
+ System.Collections.Specialized.dll
+ System.ComponentModel.dll
+ System.ComponentModel.EventBasedAsync.dll
+ System.ComponentModel.Primitives.dll
+ System.ComponentModel.TypeConverter.dll
+ System.Console.dll
+ System.Data.Common.dll
+ System.Diagnostics.Contracts.dll
+ System.Diagnostics.Debug.dll
+ System.Diagnostics.FileVersionInfo.dll
+ System.Diagnostics.Process.dll
+ System.Diagnostics.StackTrace.dll
+ System.Diagnostics.TextWriterTraceListener.dll
+ System.Diagnostics.Tools.dll
+ System.Diagnostics.TraceSource.dll
+ System.Diagnostics.Tracing.dll
+ System.Drawing.Primitives.dll
+ System.Dynamic.Runtime.dll
+ System.Globalization.Calendars.dll
+ System.Globalization.dll
+ System.Globalization.Extensions.dll
+ System.IO.Compression.dll
+ System.IO.Compression.ZipFile.dll
+ System.IO.dll
+ System.IO.FileSystem.dll
+ System.IO.FileSystem.DriveInfo.dll
+ System.IO.FileSystem.Primitives.dll
+ System.IO.FileSystem.Watcher.dll
+ System.IO.IsolatedStorage.dll
+ System.IO.MemoryMappedFiles.dll
+ System.IO.Pipes.dll
+ System.IO.UnmanagedMemoryStream.dll
+ System.Linq.dll
+ System.Linq.Expressions.dll
+ System.Linq.Parallel.dll
+ System.Linq.Queryable.dll
+ System.Memory.dll
+ System.Net.Http.dll
+ System.Net.NameResolution.dll
+ System.Net.NetworkInformation.dll
+ System.Net.Ping.dll
+ System.Net.Primitives.dll
+ System.Net.Requests.dll
+ System.Net.Security.dll
+ System.Net.Sockets.dll
+ System.Net.WebHeaderCollection.dll
+ System.Net.WebSockets.Client.dll
+ System.Net.WebSockets.dll
+ System.Numerics.Vectors.dll
+ System.ObjectModel.dll
+ System.Reflection.DispatchProxy.dll
+ System.Reflection.dll
+ System.Reflection.Emit.dll
+ System.Reflection.Emit.ILGeneration.dll
+ System.Reflection.Emit.Lightweight.dll
+ System.Reflection.Extensions.dll
+ System.Reflection.Primitives.dll
+ System.Resources.Reader.dll
+ System.Resources.ResourceManager.dll
+ System.Resources.Writer.dll
+ System.Runtime.CompilerServices.VisualC.dll
+ System.Runtime.dll
+ System.Runtime.Extensions.dll
+ System.Runtime.Handles.dll
+ System.Runtime.InteropServices.dll
+ System.Runtime.InteropServices.RuntimeInformation.dll
+ System.Runtime.Numerics.dll
+ System.Runtime.Serialization.Formatters.dll
+ System.Runtime.Serialization.Json.dll
+ System.Runtime.Serialization.Primitives.dll
+ System.Runtime.Serialization.Xml.dll
+ System.Security.Claims.dll
+ System.Security.Cryptography.Algorithms.dll
+ System.Security.Cryptography.Csp.dll
+ System.Security.Cryptography.Encoding.dll
+ System.Security.Cryptography.Primitives.dll
+ System.Security.Cryptography.X509Certificates.dll
+ System.Security.Principal.dll
+ System.Security.SecureString.dll
+ System.Text.Encoding.dll
+ System.Text.Encoding.Extensions.dll
+ System.Text.RegularExpressions.dll
+ System.Threading.dll
+ System.Threading.Overlapped.dll
+ System.Threading.Tasks.dll
+ System.Threading.Tasks.Extensions.dll
+ System.Threading.Tasks.Parallel.dll
+ System.Threading.Thread.dll
+ System.Threading.ThreadPool.dll
+ System.Threading.Timer.dll
+ System.ValueTuple.dll
+ System.Xml.ReaderWriter.dll
+ System.Xml.XDocument.dll
+ System.Xml.XmlDocument.dll
+ System.Xml.XmlSerializer.dll
+ System.Xml.XPath.dll
+ System.Xml.XPath.XDocument.dll
+../../../../Software/UnityAllVersions/2022.3.62f3/2022.3.62f3/Editor/Data/NetStandard/
+ Extensions/2.0.0/System.Runtime.InteropServices.WindowsRuntime.dll
+ ref/2.1.0/netstandard.dll
+../../../../Software/UnityAllVersions/2022.3.62f3/2022.3.62f3/Editor/Data/PlaybackEngines/AndroidPlayer/
+ Unity.Android.Gradle.dll
+ Unity.Android.GradleProject.dll
+ Unity.Android.Types.dll
+../../../../Software/UnityAllVersions/2022.3.62f3/2022.3.62f3/Editor/Data/PlaybackEngines/iOSSupport/
+ UnityEditor.iOS.Extensions.Common.dll
+ UnityEditor.iOS.Extensions.Xcode.dll
+Library/
+ PackageCache/com.unity.nuget.newtonsoft-json@3.2.1/Runtime/Newtonsoft.Json.dll
+ ScriptAssemblies/
+  Unity.PlasticSCM.Editor.dll
+  Unity.Rider.Editor.dll
+  Unity.Services.Core.Analytics.dll
+  Unity.Services.Core.Components.dll
+  Unity.Services.Core.dll
+  Unity.Services.Core.Environments.dll
+  Unity.TextMeshPro.dll
+  Unity.TextMeshPro.Editor.dll
+  Unity.Timeline.dll
+  Unity.Timeline.Editor.dll
+  Unity.VisualStudio.Editor.dll
+  Unity.VSCode.Editor.dll
+  UnityEditor.UI.dll
+  UnityEngine.UI.dll
+
+[analyzerReferences]
+../../../../Software/UnityAllVersions/2022.3.62f3/2022.3.62f3/Editor/Data/Tools/Unity.SourceGenerators/
+ Unity.Properties.SourceGenerator.dll
+ Unity.SourceGenerators.dll
+C:/Users/TonyTang/.vscode/extensions/visualstudiotoolsforunity.vstuc-1.2.1/Analyzers/Microsoft.Unity.Analyzers.dll
+
+[analyzerConfigFiles]
+Temp/obj/Debug/Assembly-CSharp/Assembly-CSharp.GeneratedMSBuildEditorConfig.editorconfig

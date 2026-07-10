@@ -46,7 +46,7 @@ public class TrieEditorWindow : EditorWindow
     /// </summary>
     private List<string> mTrieWordList;
 
-    [MenuItem("Tools/前缀树测试窗口")]
+    [MenuItem("ToolsWindow/红点系统/前缀树测试窗口")]
     static void Init()
     {
         TrieEditorWindow window = (TrieEditorWindow)EditorWindow.GetWindow(typeof(TrieEditorWindow), false, "前缀树测试窗口");
@@ -127,6 +127,10 @@ public class TrieEditorWindow : EditorWindow
             {
                 mTrie.RemoveWord(mInputWord);
             }
+        }
+        if (GUILayout.Button("删除所有单词", GUILayout.Width(120f), GUILayout.Height(20f)))
+        {
+            mTrie.RemoveAllTrieNode();
         }
         EditorGUILayout.EndHorizontal();
     }

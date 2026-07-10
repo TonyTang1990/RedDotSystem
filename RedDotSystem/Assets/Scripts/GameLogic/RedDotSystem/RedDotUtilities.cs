@@ -16,6 +16,40 @@ public static class RedDotUtilities
 {
     #region 红点辅助方法部分
     /// <summary>
+    /// 红点名拼接(用于动态红点名名字拼接)
+    /// </summary>
+    /// <param name="parentRedDotName"></param>
+    /// <param name="childRedDotName"></param>
+    /// <returns></returns>
+    public static string ConcateRedDotName(string parentRedDotName, string childRedDotName)
+    {
+        return $"{parentRedDotName}{RedDotModel.Separator}{childRedDotName}";
+    }
+
+    /// <summary>
+    /// 获取模板红点名(用于模板动态红点名生成)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="redDotNamePrefix"></param>
+    /// <param name="postFix"></param>
+    /// <returns></returns>
+    public static string GetTemplateRDName<T>(string redDotNamePrefix, T postFix)
+    {
+        return string.Format(redDotNamePrefix, postFix);
+    }
+
+    /// <summary>
+    /// 获取动态红点单元
+    /// </summary>
+    /// <param name="redDotUnitPrefix"></param>
+    /// <param name="postFix"></param>
+    /// <returns></returns>
+    public static string GetDynamicRedDotUnit<T>(string redDotUnitPrefix, T postFix)
+    {
+        return $"D_{redDotUnitPrefix}_{postFix}";
+    }
+
+    /// <summary>
     /// 获取指定红点数量和类型的文本显示
     /// Note:
     /// 红点显示类型优先级:
@@ -41,123 +75,20 @@ public static class RedDotUtilities
         }
         return redDotText;
     }
-    #endregion
-
-    #region 红点数据以及逻辑运算部分
-    #region 主界面部分
-    /// <summary>
-    /// 计算主界面动态新功能1解锁
-    /// </summary>
-    /// <returns></returns>
-    public static int CaculateNewFunc1()
-    {
-        return GameModel.Singleton.NewFunc1 ? 1 : 0;
-    }
 
     /// <summary>
-    /// 计算主界面动态新功能2解锁
+    /// 获取红点名深度
     /// </summary>
+    /// <param name="redDotName"></param>
     /// <returns></returns>
-    public static int CaculateNewFunc2()
+    public static int GetRedDotNameDepth(string redDotName)
     {
-        return GameModel.Singleton.NewFunc2 ? 1 : 0;
+        if(string.IsNullOrEmpty(redDotName))
+        {
+            return 0;
+        }
+        var nameSplitArray = redDotName.Split(RedDotModel.Separator);
+        return nameSplitArray != null ? nameSplitArray.Length : 0;
     }
-    #endregion
-
-    #region 背包界面部分
-    /// <summary>
-    /// 计算新道具数
-    /// </summary>
-    /// <returns></returns>
-    public static int CaculateNewItemNum()
-    {
-        return GameModel.Singleton.NewItemNum;
-    }
-
-    /// <summary>
-    /// 计算新资源数
-    /// </summary>
-    /// <returns></returns>
-    public static int CaculateNewResourceNum()
-    {
-        return GameModel.Singleton.NewResourceNum;
-    }
-
-    /// <summary>
-    /// 计算新装备数
-    /// </summary>
-    /// <returns></returns>
-    public static int CaculateNewEquipNum()
-    {
-        return GameModel.Singleton.NewEquipNum;
-    }
-    #endregion
-
-    #region 邮件界面部分
-    /// <summary>
-    /// 计算新公共邮件数
-    /// </summary>
-    /// <returns></returns>
-    public static int CaculateNewPublicMailNum()
-    {
-        return GameModel.Singleton.NewPublicMailNum;
-    }
-
-    /// <summary>
-    /// 计算新战斗邮件数
-    /// </summary>
-    /// <returns></returns>
-    public static int CaculateNewBattleMailNum()
-    {
-        return GameModel.Singleton.NewBattleMailNum;
-    }
-
-    /// <summary>
-    /// 计算新其他邮件数
-    /// </summary>
-    /// <returns></returns>
-    public static int CaculateNewOtherMailNum()
-    {
-        return GameModel.Singleton.NewOtherMailNum;
-    }
-
-    /// <summary>
-    /// 计算公共邮件可领奖数
-    /// </summary>
-    /// <returns></returns>
-    public static int CaculateNewPublicMailRewardNum()
-    {
-        return GameModel.Singleton.NewPublicMailRewardNum;
-    }
-
-    /// <summary>
-    /// 计算战斗邮件可领奖数
-    /// </summary>
-    /// <returns></returns>
-    public static int CaculateNewBattleMailRewardNum()
-    {
-        return GameModel.Singleton.NewBattleMailRewardNum;
-    }
-    #endregion
-
-    #region 装备界面部分
-    /// <summary>
-    /// 计算可穿戴装备数
-    /// </summary>
-    /// <returns></returns>
-    public static int CaculateWearableEquipNum()
-    {
-        return GameModel.Singleton.WearableEquipNum;
-    }
-
-    /// <summary>
-    /// 计算可升级装备数
-    /// </summary>
-    /// <returns></returns>
-    public static int CaculateUpgradeableEquipNum()
-    {
-        return GameModel.Singleton.UpgradeableEquipNum;
-    }
-    #endregion
     #endregion
 }
