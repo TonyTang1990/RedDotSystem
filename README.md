@@ -491,6 +491,12 @@
 7. **生命周期动态红点建议严格把控逻辑生命周期，控制好对应的红点名初始化和销毁逻辑**
 8. **红点类型显示多样性取决于逻辑层显示回调后对RedDotType的显示处理，请自行按需求处理显示优先级**
 
+## 店铺
+
+觉得好用的可以购买淘宝商店版本支持作者：
+
+[RedDotSystem红点系统(淘宝)](https://item.taobao.com/item.htm?id=1070242386711&mi_id=0000EBhJ4z7JHlG1aBmY0D3NHJTkYkQMTItNsviqAbpvess&spm=0.0.0.0&xxc=shop&skuId=6121002541150)
+
 ## 博客
 
 [红点系统](http://tonytang1990.github.io/2022/08/12/%E7%BA%A2%E7%82%B9%E7%B3%BB%E7%BB%9F/)
