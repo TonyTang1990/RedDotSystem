@@ -173,7 +173,7 @@ public class LevelUI : BaseUI
     /// </summary>
     private void OnBtnCloseClick()
     {
-        OnClose();
+        Close();
     }
 
     /// <summary>

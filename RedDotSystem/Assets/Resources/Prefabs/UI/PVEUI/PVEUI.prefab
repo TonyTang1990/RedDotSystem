@@ -931,7 +931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db8ee57498a71e3448cdef4db0e7f816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PVETxt: {fileID: 0}
+  PVETxt: {fileID: 8905683888026118300}
   PVERewardRedDotWidget: {fileID: 6506259885058556773}
   BtnClose: {fileID: 3623242130363699598}
   BtnAddPVERewardNum: {fileID: 6552318617934854575}

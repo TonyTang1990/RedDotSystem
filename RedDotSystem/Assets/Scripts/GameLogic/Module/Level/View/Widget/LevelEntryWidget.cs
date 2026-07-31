@@ -99,6 +99,6 @@ public class LevelEntryWidget : MonoBehaviour
     private void OnLevelBtnClick()
     {
         Debug.Log($"点击了关卡{mLevelId}入口!");
-        LevelAgent.OpenLevelUI();
+        LevelAgent.OpenLevelUI(mLevelId);
     }
 }
